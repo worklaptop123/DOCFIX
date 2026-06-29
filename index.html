@@ -871,56 +871,56 @@
 
     // Submit report → sends to email (existing formsubmit.co integration preserved)
 function submitReport(){
+  const location = locationDisplayText.classList.contains("placeholder") ? "" : locationDisplayText.textContent;
+  const track = document.getElementById("trackName").value;
+  const exact = document.getElementById("exactSpot").value;
+  const issue = document.getElementById("issueType").value;
+  const description = document.getElementById("issueDescription").value;
+  const email = document.getElementById("contactEmail").value;
+  const phone = document.getElementById("contactPhone").value;
+  const file = document.getElementById("issueImage");
 
-hidden("_subject","DOC FIX REPORT");
-hidden("_template","table");
-hidden("_captcha","true");
+  function sendForm(subject, fields){
+    const form=document.createElement("form");
+    form.method="POST";
+    form.action="https://formsubmit.co/YOUR_FORM_ID"; // replace with your FormSubmit ID
+    form.enctype="multipart/form-data";
+    form.style.display="none";
+    const hidden=(n,v)=>{const i=document.createElement("input");i.type="hidden";i.name=n;i.value=v||"";form.appendChild(i)};
+    hidden("_subject",subject);
+    hidden("_template","table");
+    hidden("_captcha","true");
+    Object.entries(fields).forEach(([k,v])=>hidden(k,v));
+    document.body.appendChild(form);
+    form.submit();
+  }
 
-hidden("Location",location);
-hidden("Track",track);
-hidden("Exact Spot",exact);
-hidden("Issue Type",issue);
-hidden("Description",description);
-hidden("Email",email);
-hidden("Phone",phone);
+  // send separate emails
+  sendForm("DOC FIX – Location",{Location:location,Track:track,ExactSpot:exact});
+  sendForm("DOC FIX – Issue",{IssueType:issue,Description:description});
+  sendForm("DOC FIX – Contact",{Email:email,Phone:phone});
 
-if(file.files.length>0){
+  if(file.files.length>0){
+    const form=document.createElement("form");
+    form.method="POST";
+    form.action="https://formsubmit.co/YOUR_FORM_ID";
+    form.enctype="multipart/form-data";
+    form.style.display="none";
 
-const upload =
-file.cloneNode();
+    // append the actual file directly
+    const upload=document.createElement("input");
+    upload.type="file";
+    upload.name="Photo";
+    const dt=new DataTransfer();
+    dt.items.add(file.files[0]);
+    upload.files=dt.files;
+    form.appendChild(upload);
 
-upload.name =
-"Photo";
-
-const dt =
-new DataTransfer();
-
-dt.items.add(file.files[0]);
-
-upload.files =
-dt.files;
-
-form.appendChild(upload);
-
+    document.body.appendChild(form);
+    form.submit();
+  }
 }
 
-document.body.appendChild(form);
-
-form.submit();
-
-}
-
-    // Start scan: highlight report card
-    function startScan(){
-      showPage('report');
-      const firstCard = document.querySelector('#report .card.report-card');
-      if(firstCard){
-        firstCard.style.transition = 'box-shadow .18s ease, transform .18s ease';
-        firstCard.style.transform = 'translateY(-6px)';
-        firstCard.style.boxShadow = '0 22px 50px rgba(6,20,14,0.12)';
-        setTimeout(()=> { firstCard.style.transform=''; firstCard.style.boxShadow=''; }, 600);
-      }
-    }
 
     // Notifications button small pulse
     const notifBtn = document.getElementById('notifBtn');
