@@ -1002,7 +1002,44 @@
     }
 
     const FORM_EMAIL = "work.laptop.ai@gmail.com";
+(function(){
+  const submitBtn = document.querySelector('.btn-primary[onclick="submitReport()"]');
+  const descEl = document.getElementById('issueDescription');
+  const locationTextEl = document.getElementById('locationDisplayText');
 
+  if(submitBtn){
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.72';
+  }
+
+  function isLocationSelected(){
+    return locationTextEl && !locationTextEl.classList.contains('placeholder');
+  }
+
+  function isDescriptionFilled(){
+    return descEl && descEl.value.trim().length >= 6;
+  }
+
+  function validateFormUI(){
+    const ok = isLocationSelected() && isDescriptionFilled();
+    submitBtn.disabled = !ok;
+    submitBtn.style.opacity = ok ? '1' : '0.72';
+  }
+
+  descEl.addEventListener('input', validateFormUI);
+
+  const origBuild = buildLocationList;
+  buildLocationList = function(filterText){
+    origBuild(filterText);
+    setTimeout(() => {
+      document.querySelectorAll('.location-item').forEach(it => {
+        it.addEventListener('click', () => setTimeout(validateFormUI, 50));
+      });
+    }, 0);
+  };
+
+  window.addEventListener('load', validateFormUI);
+})();
   function submitReport(){
   try{
     // REQUIRED FIELDS
