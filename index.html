@@ -560,17 +560,23 @@
       .content{padding:20px}
       .top-actions .btn{display:none}
     }
-  </style>
+</style>
 </head>
 <body>
 
   <div class="topbar" role="banner" aria-label="Top navigation">
     <div class="brand" role="link" aria-label="DOC Fix home" onclick="showPage('home')">
+
+      <!-- LOGO ADDED -->
+      <img src="logo.png" class="brand-logo" alt="DOC Logo">
+
       <div>
         <div class="brand-mark">DOC FIX</div>
         <div class="brand-sub">Protecting Aotearoa's places</div>
       </div>
+
     </div>
+  </div>
 
     <div class="top-actions" role="navigation" aria-label="Top actions">
       <button class="btn" onclick="showPage('report')" title="Report an issue">Report</button>
@@ -797,6 +803,17 @@
         }, 220);
       }
     });
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
 
     function startScan(){
       showPage('report');
