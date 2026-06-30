@@ -931,116 +931,79 @@
       "Woolshed Creek Campsite","Young River Campsite"
     ];
 
-    const locationDisplay = document.getElementById('locationDisplay');
-    const locationDropdown = document.getElementById('locationDropdown');
-    const locationSearch = document.getElementById('locationSearch');
-    const locationList = document.getElementById('locationList');
-    const locationDisplayText = document.getElementById('locationDisplayText');
+  const locationDisplay = document.getElementById('locationDisplay');
+const locationDropdown = document.getElementById('locationDropdown');
+const locationSearch = document.getElementById('locationSearch');
+const locationList = document.getElementById('locationList');
+const locationDisplayText = document.getElementById('locationDisplayText');
 
-    function buildLocationList(filterText){
-      const f = (filterText || '').toLowerCase();
-      locationList.innerHTML = '';
+function buildLocationList(filterText){
+  const f = (filterText || '').toLowerCase();
+  locationList.innerHTML = '';
 
-      const addGroup = (label, items) => {
-        const groupLabel = document.createElement('div');
-        groupLabel.className = 'location-group-label';
-        groupLabel.textContent = label;
-        locationList.appendChild(groupLabel);
+  const addGroup = (label, items) => {
+    const groupLabel = document.createElement('div');
+    groupLabel.className = 'location-group-label';
+    groupLabel.textContent = label;
+    locationList.appendChild(groupLabel);
 
-        items.forEach(name => {
-          if(!f || name.toLowerCase().includes(f)){
-            const item = document.createElement('div');
-            item.className = 'location-item';
-            item.textContent = name;
-            item.addEventListener('click', () => {
-              locationDisplayText.textContent = name;
-              locationDisplayText.classList.remove('placeholder');
-              locationDropdown.classList.remove('open');
-            });
-            locationList.appendChild(item);
-          }
+    items.forEach(name => {
+      if(!f || name.toLowerCase().includes(f)){
+        const item = document.createElement('div');
+        item.className = 'location-item';
+        item.textContent = name;
+        item.addEventListener('click', () => {
+          locationDisplayText.textContent = name;
+          locationDisplayText.classList.remove('placeholder');
+          locationDropdown.classList.remove('open');
         });
-      };
-
-      addGroup('Huts', huts);
-      addGroup('Campsites', campsites);
-    }
-
-    if(locationDisplay){
-      buildLocationList('');
-      locationDisplay.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = locationDropdown.classList.contains('open');
-        document.querySelectorAll('.location-dropdown').forEach(dd => dd.classList.remove('open'));
-        if(!isOpen){
-          locationDropdown.classList.add('open');
-          locationSearch.value = '';
-          buildLocationList('');
-          locationSearch.focus();
-        }
-      });
-    }
-
-    if(locationSearch){
-      locationSearch.addEventListener('input', () => {
-        buildLocationList(locationSearch.value);
-      });
-    }
-
-    document.addEventListener('click', (e) => {
-      if(locationDropdown && !locationDropdown.contains(e.target) && !locationDisplay.contains(e.target)){
-        locationDropdown.classList.remove('open');
+        locationList.appendChild(item);
       }
     });
-
-    const cameraBtn = document.getElementById('cameraBtn');
-    const issueImageInput = document.getElementById('issueImage');
-    if(cameraBtn && issueImageInput){
-      cameraBtn.addEventListener('click', () => {
-        issueImageInput.click();
-      });
-    }
-
-    const FORM_EMAIL = "work.laptop.ai@gmail.com";
-(function(){
-  const submitBtn = document.querySelector('.btn-primary[onclick="submitReport()"]');
-  const descEl = document.getElementById('issueDescription');
-  const locationTextEl = document.getElementById('locationDisplayText');
-
-  if(submitBtn){
-    submitBtn.disabled = true;
-    submitBtn.style.opacity = '0.72';
-  }
-
-  function isLocationSelected(){
-    return locationTextEl && !locationTextEl.classList.contains('placeholder');
-  }
-
-  function isDescriptionFilled(){
-    return descEl && descEl.value.trim().length >= 6;
-  }
-
-  function validateFormUI(){
-    const ok = isLocationSelected() && isDescriptionFilled();
-    submitBtn.disabled = !ok;
-    submitBtn.style.opacity = ok ? '1' : '0.72';
-  }
-
-  descEl.addEventListener('input', validateFormUI);
-
-  const origBuild = buildLocationList;
-  buildLocationList = function(filterText){
-    origBuild(filterText);
-    setTimeout(() => {
-      document.querySelectorAll('.location-item').forEach(it => {
-        it.addEventListener('click', () => setTimeout(validateFormUI, 50));
-      });
-    }, 0);
   };
 
-  window.addEventListener('load', validateFormUI);
-})();
-  function submitReport(){
+  addGroup('Huts', huts);
+  addGroup('Campsites', campsites);
+}
+
+if(locationDisplay){
+  buildLocationList('');
+  locationDisplay.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = locationDropdown.classList.contains('open');
+    document.querySelectorAll('.location-dropdown').forEach(dd => dd.classList.remove('open'));
+    if(!isOpen){
+      locationDropdown.classList.add('open');
+      locationSearch.value = '';
+      buildLocationList('');
+      locationSearch.focus();
+    }
+  });
+}
+
+if(locationSearch){
+  locationSearch.addEventListener('input', () => {
+    buildLocationList(locationSearch.value);
+  });
+}
+
+document.addEventListener('click', (e) => {
+  if(locationDropdown && !locationDropdown.contains(e.target) && !locationDisplay.contains(e.target)){
+    locationDropdown.classList.remove('open');
+  }
+});
+
+const cameraBtn = document.getElementById('cameraBtn');
+const issueImageInput = document.getElementById('issueImage');
+if(cameraBtn && issueImageInput){
+  cameraBtn.addEventListener('click', () => {
+    issueImageInput.click();
+  });
+}
+
+const FORM_EMAIL = "work.laptop.ai@gmail.com";
+
+function submitReport(){
   try{
     // REQUIRED FIELDS
     const location = locationDisplayText.classList.contains('placeholder') ? '' : locationDisplayText.textContent.trim();
@@ -1150,7 +1113,6 @@
   }
 }
 
-  </script>
+</script>
 </body>
 </html>
-
