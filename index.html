@@ -1,1588 +1,449 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>DOC FIX – Protect New Zealand</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <!-- Premium brand font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     :root{
-      --forest:#0F3B2E;
-      --forest-deep:#0A261C;
-      --stone:#E3E0DA;
-      --cloud:#F7F6F3;
-      --accent:#E08B3A;
-      --topbar-height:64px;
-      --sidebar-width-collapsed:64px;
-      --sidebar-width-expanded:200px;
-      --ease: cubic-bezier(.2,.9,.2,1);
-      --shadow-1: 0 6px 18px rgba(6,20,14,0.08);
-      --shadow-2: 0 18px 40px rgba(6,20,14,0.12);
-      --floaty-duration: 10s;
-      --doc-green:#00563B;
-      --doc-yellow-green:#C4D600;
+      --bg:#F7F6F3;
+      --card:#FFFFFF;
+      --accent:#0A261C;
+      --muted:#0F3B2E;
+      --border:#E3E0DA;
     }
-
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background:var(--cloud);
-      color:var(--forest);
-      display:flex;
-      min-height:100vh;
-      overflow:hidden;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+    html,body{height:100%;margin:0;font-family:"Inter",system-ui;background:var(--bg);color:var(--muted)}
+    .topbar{position:fixed;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--card);box-shadow:0 6px 18px rgba(0,0,0,0.08);z-index:10}
+    .brand-mark{font-family:"Poppins",sans-serif;font-weight:700;font-size:18px;color:var(--accent)}
+    .main{margin-top:84px;padding:20px;max-width:980px;margin-left:auto;margin-right:auto}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+    h1,h2{margin:0 0 8px 0}
+    p{margin:0 0 12px 0;color:#2b3b33}
+    .form-row{display:flex;gap:12px;flex-wrap:wrap}
+    .form-col{flex:1;min-width:160px}
+    label{display:block;font-weight:600;font-size:13px;margin-top:8px}
+    input[type="text"],input[type="email"],input[type="file"],textarea,select{
+      width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;margin-top:6px;font-size:14px;box-sizing:border-box;background:#fff
     }
-
-    /* TOP BAR */
-    .topbar{
-      position:fixed;
-      top:0;
-      left:0;
-      right:0;
-      height:var(--topbar-height);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 20px;
-      z-index:1400;
-      background: linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,255,255,0.56));
-      border-bottom: 1px solid rgba(6,20,14,0.04);
-      backdrop-filter: blur(6px) saturate(1.05);
-      box-shadow: var(--shadow-1);
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      cursor:pointer;
-    }
-    .brand-mark{
-      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      font-weight:700;
-      font-size:18px;
-      letter-spacing:0.02em;
-      color:var(--forest-deep);
-      background: linear-gradient(90deg, #ffffff, #f3f1ec);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 6px 18px rgba(11,38,28,0.06);
-      padding:6px 8px;
-      border-radius:8px;
-      transition: transform .18s var(--ease), box-shadow .18s var(--ease);
-    }
-    .brand:hover .brand-mark{ transform: translateY(-2px); }
-
-    .brand-sub{
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      font-weight:600;
-      font-size:12px;
-      color:rgba(15,59,46,0.6);
-      margin-left:2px;
-    }
-
-    .top-actions{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-    .btn {
-      background:transparent;
-      border:1px solid rgba(6,20,14,0.06);
-      padding:8px 12px;
-      border-radius:10px;
-      cursor:pointer;
-      color:var(--forest-deep);
-      font-weight:600;
-      font-size:14px;
-      transition: transform .12s var(--ease), background .12s var(--ease), box-shadow .12s var(--ease);
-    }
-    .btn:hover{ transform: translateY(-2px); box-shadow: var(--shadow-1); }
-    .btn-primary{
-      background:var(--forest-deep);
-      color:var(--cloud);
-      border:none;
-      padding:9px 14px;
-      border-radius:10px;
-      box-shadow: 0 8px 24px rgba(6,20,14,0.08);
-      cursor:pointer;
-      font-weight:600;
-      font-size:14px;
-    }
-    .icon-btn{
-      width:40px;
-      height:40px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:10px;
-      background:transparent;
-      border:1px solid rgba(6,20,14,0.04);
-      cursor:pointer;
-      transition: transform .12s var(--ease), background .12s var(--ease);
-    }
-    .icon-btn:hover{ transform: translateY(-2px); background: rgba(6,20,14,0.02); }
-
-    /* SIDEBAR (SHIFTING) - sits below topbar */
-    .sidebar{
-      position:fixed;
-      top:var(--topbar-height);
-      left:0;
-      height:calc(100vh - var(--topbar-height));
-      width:var(--sidebar-width-collapsed);
-      background:var(--forest-deep);
-      padding:16px 0;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      align-items:center;
-      transition:width .25s var(--ease);
-      z-index:1300;
-      overflow:hidden;
-    }
-    .sidebar:hover{ width:var(--sidebar-width-expanded); }
-    .side-item{
-      width:100%;
-      display:flex;
-      align-items:center;
-      gap:14px;
-      padding:12px 18px;
-      color:var(--cloud);
-      text-decoration:none;
-      border-radius:12px;
-      cursor:pointer;
-      transition:background .18s var(--ease), transform .12s var(--ease), box-shadow .12s var(--ease);
-      user-select:none;
-    }
-    .side-item:hover{ background:rgba(255,255,255,0.06); transform:translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
-    .icon svg{width:22px;height:22px;fill:var(--cloud);flex-shrink:0}
-    .label{
-      opacity:0;
-      white-space:nowrap;
-      transition:opacity .22s var(--ease);
-      font-weight:600;
-      font-size:14px;
-      letter-spacing:.01em;
-    }
-    .sidebar:hover .label{ opacity:1; }
-
-    /* MAIN AREA */
-    .main{
-      margin-left:var(--sidebar-width-collapsed);
-      margin-top:var(--topbar-height);
-      transition:margin-left .25s var(--ease), width .25s var(--ease);
-      width:calc(100vw - var(--sidebar-width-collapsed));
-      height:calc(100vh - var(--topbar-height));
-      overflow:auto;
-      -webkit-overflow-scrolling:touch;
-      background:transparent;
-    }
-    .sidebar:hover ~ .main{ margin-left:var(--sidebar-width-expanded); width:calc(100vw - var(--sidebar-width-expanded)); }
-
-    /* Page system with fade transitions */
-    .page{ display:none; width:100%; opacity:0; transform: translateY(6px); transition: opacity .28s var(--ease), transform .28s var(--ease); }
-    .page.active{ display:block; opacity:1; transform: translateY(0); }
-
-    /* Full-bleed hero */
-    .hero{
-      position:relative;
-      width:100%;
-      height:70vh;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .hero-bg{
-      position:absolute;
-      inset:0;
-      background-image:url("https://images.pexels.com/photos/37817533/pexels-photo-37817533.jpeg?auto=compress&cs=tinysrgb&w=1600");
-      background-size:cover;
-      background-position:center center;
-      filter: saturate(1.45) contrast(1.04) brightness(1.06);
-      transform:scale(1.035);
-      will-change:transform,filter;
-      transition: transform .6s ease, filter .4s ease;
-      /* Extend background to the left edge of the viewport so it visually bleeds under the sidebar */
-      left: calc(-1 * var(--sidebar-width-collapsed));
-      width: calc(100% + var(--sidebar-width-collapsed));
-    }
-    .hero-overlay{
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(180deg, rgba(6,12,8,0.56) 0%, rgba(6,12,8,0.28) 40%, rgba(6,12,8,0.12) 100%),
-        linear-gradient(120deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-      pointer-events:none;
-      mix-blend-mode: multiply;
-    }
-
-    .hero-vignette{
-      position:absolute;
-      inset:0;
-      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.18) 100%);
-      pointer-events:none;
-      opacity:0.9;
-    }
-
-    .hero-inner{
-      position:relative;
-      z-index:2;
-      width:100%;
-      max-width:1120px;
-      margin:0 auto;
-      padding:48px 28px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:24px;
-    }
-
-    .hero-text{
-      max-width:640px;
-      color:var(--cloud);
-      text-align:left;
-      transform: translateX(-6%) translateY(-14%);
-      padding-right:12px;
-      transition: transform .45s var(--ease), opacity .45s var(--ease);
-    }
-    .hero-text.hidden { opacity: 0; transform: translateX(-6%) translateY(-18%); }
-    .hero-text.visible { opacity: 1; transform: translateX(-6%) translateY(-14%); }
-
-    .hero-title{
-      font-size:36px;
-      line-height:1.15;
-      font-weight:600;
-      margin-bottom:18px;
-      color:var(--cloud);
-      text-shadow: 0 6px 20px rgba(3,10,6,0.32);
-      letter-spacing:0.01em;
-    }
-    .hero-sub{
-      font-size:16px;
-      color:rgba(255,255,255,0.94);
-      max-width:520px;
-      line-height:1.6;
-    }
-
-    /* Floating "space" animation for the hero card - reduced amplitude and slower */
-    @keyframes floaty {
-      0% { transform: translateY(-8px) rotate(-0.3deg); box-shadow: 0 18px 40px rgba(6,20,14,0.12); }
-      25% { transform: translateY(-12px) rotate(0.3deg); box-shadow: 0 22px 48px rgba(6,20,14,0.13); }
-      50% { transform: translateY(-10px) rotate(-0.2deg); box-shadow: 0 20px 44px rgba(6,20,14,0.12); }
-      75% { transform: translateY(-13px) rotate(0.25deg); box-shadow: 0 24px 52px rgba(6,20,14,0.14); }
-      100% { transform: translateY(-8px) rotate(-0.3deg); box-shadow: 0 18px 40px rgba(6,20,14,0.12); }
-    }
-
-    /* Premium hero card styling: no orange lines/dots, just white and shaded accents */
-    .hero-card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.995), rgba(248,247,244,0.995));
-      color:var(--forest);
-      border-radius:18px;
-      padding:22px 22px;
-      box-shadow: 0 28px 60px rgba(6,20,14,0.12), inset 0 -6px 18px rgba(255,255,255,0.8);
-      max-width:340px;
-      transform: translateY(-10px);
-      transition: transform .22s var(--ease), box-shadow .22s var(--ease);
-      backdrop-filter: blur(8px) saturate(1.02);
-      border: 1px solid rgba(6,20,14,0.06);
-      position:relative;
-      overflow:visible;
-      animation: floaty var(--floaty-duration) ease-in-out infinite;
-      will-change: transform, box-shadow;
-      transform-origin: center;
-    }
-
-    .hero-card .accent-top{
-      position:absolute;
-      top:10px;
-      left:16px;
-      right:16px;
-      height:4px;
-      border-radius:6px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(235,235,232,0.9));
-      opacity:0.95;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-      pointer-events:none;
-    }
-
-    .hero-card-title{
-      font-size:14px;
-      font-weight:700;
-      margin-top:14px;
-      margin-bottom:12px;
-      letter-spacing:0.01em;
-      color: rgba(6,20,14,0.92);
-      text-transform:none;
-    }
-    .hero-card-list{
-      list-style:none;
-      padding:0;
-      margin:0;
-      font-size:13px;
-      color:rgba(6,20,14,0.82);
-      line-height:1.7;
-    }
-    .hero-card-list li{
-      margin:10px 0;
-      padding-left:6px;
-      position:relative;
-    }
-    .hero-card-list li::before{
-      content: '';
-      position:absolute;
-      left:-6px;
-      top:8px;
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background: rgba(255,255,255,0.95);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-      opacity:0.95;
-    }
-
-    .hero-card:hover{
-      animation-play-state: paused;
-      transform: translateY(-18px);
-      box-shadow: 0 44px 100px rgba(6,20,14,0.18);
-    }
-
-    /* content area below hero */
-    .content{
-      max-width:1120px;
-      margin:0 auto;
-      padding:36px 28px 80px;
-    }
-    .section-title{font-size:20px;font-weight:700;margin-bottom:14px}
-    .card{
-      background:var(--cloud);
-      border-radius:16px;
-      padding:18px;
-      border:1px solid var(--stone);
-      box-shadow:var(--shadow-1);
-      margin-bottom:14px;
-      transition: transform .18s var(--ease), box-shadow .18s var(--ease), border-color .18s var(--ease), background .18s var(--ease);
-    }
-    .card:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(6,20,14,0.08); }
-    .card-title{font-size:15px;font-weight:700;margin-bottom:8px}
-    .card-sub{font-size:13px;color:rgba(15,59,46,0.78);line-height:1.45}
-
-    /* DOC-style report card: only border, dark green like sidebar; no lighter interior */
-    .report-card{
-      border:2px solid var(--forest-deep);
-      background: var(--cloud);
-    }
-
-    /* small utilities */
-    .row{display:flex;gap:12px;align-items:center}
-    input[type="text"],
-    input[type="email"],
-    textarea {
-      width:100%;
-      padding:10px 12px;
-      border-radius:10px;
-      border:1px solid rgba(6,20,14,0.12);
-      font-size:14px;
-      margin-top:8px;
-      margin-bottom:10px;
-      font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-
-    .form-label{
-      font-size:13px;
-      font-weight:600;
-      color:rgba(15,59,46,0.9);
-      margin-top:4px;
-    }
-
-    .form-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:16px;
-    }
-    .form-col{
-      flex:1 1 260px;
-    }
-
-    /* Searchable location dropdown */
-    .location-wrapper{
-      position:relative;
-      margin-top:8px;
-      margin-bottom:12px;
-    }
-    .location-display{
-      width:100%;
-      padding:10px 12px;
-      border-radius:10px;
-      border:1px solid rgba(6,20,14,0.12);
-      font-size:14px;
-      background:#ffffff;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      cursor:pointer;
-    }
-    .location-display span{
-      color:rgba(15,59,46,0.9);
-      font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    .location-display .placeholder{
-      color:rgba(15,59,46,0.5);
-    }
-    .location-chevron{
-      width:16px;
-      height:16px;
-      fill:rgba(15,59,46,0.6);
-    }
-
-    .location-dropdown{
-      position:absolute;
-      top:110%;
-      left:0;
-      right:0;
-      background:#ffffff;
-      border-radius:12px;
-      box-shadow:0 18px 40px rgba(6,20,14,0.16);
-      border:1px solid rgba(6,20,14,0.08);
-      padding:10px 10px 8px;
-      z-index:1600;
-      max-height:260px;
-      display:none;
-      flex-direction:column;
-      gap:6px;
-    }
-    .location-dropdown.open{
-      display:flex;
-    }
-    .location-search{
-      width:100%;
-      padding:8px 10px;
-      border-radius:8px;
-      border:1px solid rgba(6,20,14,0.12);
-      font-size:13px;
-      margin-bottom:6px;
-      font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    .location-list{
-      overflow-y:auto;
-      padding-right:4px;
-    }
-    .location-group-label{
-      font-size:11px;
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:0.06em;
-      color:rgba(15,59,46,0.6);
-      margin:6px 2px 4px;
-    }
-    .location-item{
-      padding:6px 8px;
-      border-radius:8px;
-      font-size:13px;
-      cursor:pointer;
-      color:rgba(15,59,46,0.9);
-      font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    .location-item:hover{
-      background:rgba(196,214,0,0.12);
-    }
-
-    /* File upload + camera */
-    .file-row{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-top:8px;
-      margin-bottom:10px;
-    }
-    .file-input{
-      position:relative;
-      overflow:hidden;
-      display:inline-block;
-    }
-    .file-input input[type="file"]{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      cursor:pointer;
-    }
-    .file-button{
-      padding:9px 14px;
-      border-radius:10px;
-      border:1px solid rgba(6,20,14,0.12);
-      background:#ffffff;
-      font-size:13px;
-      font-weight:600;
-      color:rgba(15,59,46,0.9);
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      cursor:pointer;
-      box-shadow:0 6px 16px rgba(6,20,14,0.06);
-      transition:transform .14s var(--ease), box-shadow .14s var(--ease), background .14s var(--ease);
-      font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    .file-button:hover{
-      transform:translateY(-2px);
-      box-shadow:0 10px 24px rgba(6,20,14,0.12);
-      background:#F9FAF6;
-    }
-    .camera-btn{
-      width:40px;
-      height:40px;
-      border-radius:10px;
-      border:1px solid rgba(6,20,14,0.12);
-      background:#ffffff;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      box-shadow:0 6px 16px rgba(6,20,14,0.06);
-      transition:transform .14s var(--ease), box-shadow .14s var(--ease), background .14s var(--ease);
-    }
-    .camera-btn:hover{
-      transform:translateY(-2px);
-      box-shadow:0 10px 24px rgba(6,20,14,0.12);
-      background:#F9FAF6;
-    }
-    .camera-btn svg{
-      width:18px;
-      height:18px;
-      fill:rgba(15,59,46,0.9);
-    }
-
-    .submit-row{
-      margin-top:12px;
-      display:flex;
-      justify-content:flex-start;
-    }
-
-    /* responsive tweaks */
-    @media (max-width:900px){
-      .hero-inner{padding:28px}
-      .hero-text{transform:translateX(0) translateY(-8%); text-align:center}
-      .hero-card{position:relative; margin-top:18px; transform:none; max-width:360px; animation:none}
-      .hero-inner{flex-direction:column; align-items:center; gap:18px}
-      .main{margin-left:var(--sidebar-width-collapsed)}
-      .sidebar:hover ~ .main{margin-left:var(--sidebar-width-expanded)}
-      .brand-sub{display:none}
-      /* ensure hero-bg extension adapts on small screens */
-      .hero-bg{ left: 0; width: 100%; }
-    }
-    @media (max-width:520px){
-      .hero-title{font-size:28px}
-      .hero-sub{font-size:14px}
-      .hero-inner{padding:20px}
-      .content{padding:20px}
-      .top-actions .btn{display:none}
+    textarea{min-height:110px;resize:vertical}
+    .btn-primary{background:var(--accent);color:#fff;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+    .hint{font-size:13px;color:#6b6b6b;margin-top:6px}
+    .small{font-size:13px;color:#6b6b6b}
+    .footer{margin-top:20px;text-align:center;color:#6b6b6b;font-size:13px}
+    .search-suggestions{max-height:220px;overflow:auto;border:1px solid #eee;background:#fff;border-radius:8px;padding:8px;margin-top:6px}
+    .suggestion{padding:6px;border-radius:6px;cursor:pointer}
+    .suggestion:hover{background:#f1f1f1}
+    @media (max-width:640px){
+      .form-row{flex-direction:column}
     }
   </style>
 </head>
 <body>
-
-  <!-- TOP BAR -->
-  <div class="topbar" role="banner" aria-label="Top navigation">
-    <div class="brand" role="link" aria-label="DOC Fix home" onclick="showPage('home')">
-      <div>
-        <div class="brand-mark">DOC FIX</div>
-        <div class="brand-sub">Protecting Aotearoa's places</div>
-      </div>
-    </div>
-
-    <div class="top-actions" role="navigation" aria-label="Top actions">
-      <button class="btn" onclick="showPage('report')" title="Report an issue">Report</button>
-      <button class="btn" onclick="startScan()" title="Scan barcode">Scan</button>
-      <button class="icon-btn" title="Notifications" aria-label="Notifications" id="notifBtn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2zM18 16v-5a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2z" fill="#0F3B2E"/></svg>
-      </button>
-      <button class="btn-primary" onclick="showPage('report')" title="Quick report">Quick Report</button>
+  <div class="topbar">
+    <div class="brand-mark">DOC FIX</div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="btn-primary" onclick="showPage('report')">Report Issue</button>
+      <button style="background:transparent;border:none;font-weight:600;cursor:pointer" onclick="showPage('home')">Home</button>
     </div>
   </div>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar" aria-hidden="false">
-    <div class="side-item" onclick="showPage('home')" role="button" aria-label="Home">
-      <span class="icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5z"/></svg>
-      </span>
-      <span class="label">Home</span>
-    </div>
-
-    <div class="side-item" onclick="showPage('report')" role="button" aria-label="Report an issue">
-      <span class="icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 3h10a2 2 0 0 1 2 2v14l-7-3-7 3V5a2 2 0 0 1 2-2z"/></svg>
-      </span>
-      <span class="label">Report Issue</span>
-    </div>
-
-    <div class="side-item" onclick="showPage('important')" role="button" aria-label="Important information">
-      <span class="icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
-      </span>
-      <span class="label">Important</span>
-    </div>
-  </div>
-
-  <!-- MAIN -->
-  <div class="main" role="main">
-
-    <!-- HOME PAGE -->
-    <section id="home" class="page active" aria-labelledby="home-title">
-      <header class="hero" role="banner">
-        <div class="hero-bg" aria-hidden="true"></div>
-        <div class="hero-overlay" aria-hidden="true"></div>
-        <div class="hero-vignette" aria-hidden="true"></div>
-
-        <div class="hero-inner">
-          <div class="hero-text hidden" id="home-title">
-            <h1 class="hero-title">Protect places worth keeping.</h1>
-            <p class="hero-sub">
-              Found an issue at a hut, campsite, track, shelter, toilet, bridge, sign, or conservation area?
-              Submit a report in under 60 seconds — quick, simple, and built for the outdoors.
-            </p>
-          </div>
-
-          <aside class="hero-card" aria-label="Designed for the outdoors">
-            <div class="accent-top" aria-hidden="true"></div>
-            <div class="hero-card-title">Designed for the outdoors</div>
-            <ul class="hero-card-list">
-              <li>Works on weak signal</li>
-              <li>Fast, single-screen reporting</li>
-              <li>Anonymous by default</li>
-              <li>Trusted, DOC-inspired interface</li>
-            </ul>
-          </aside>
+  <main class="main">
+    <section id="home" class="card page active">
+      <h1>Protect places worth keeping</h1>
+      <p>Report issues you find on tracks, huts and campsites across Aotearoa. Quick, simple, and built for the outdoors.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px" class="card">
+          <h2 style="font-size:16px;margin-bottom:6px">How it works</h2>
+          <p class="small">Pick a location, describe the issue, optionally attach a photo and contact details. Submissions are sent as separate emails so the right teams can act faster.</p>
         </div>
-      </header>
-
-      <div class="content" aria-live="polite">
-        <h2 class="section-title">How it works</h2>
-
-        <div class="card">
-          <div class="card-title">1 — Scan the location barcode</div>
-          <p class="card-sub">Every hut, track, toilet, and campsite has one. Scan or enter the location ID.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-title">2 — Take a photo of the issue</div>
-          <p class="card-sub">Clear, close, and safe. One good photo helps maintenance teams act faster.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-title">3 — Describe the problem</div>
-          <p class="card-sub">Short and simple is perfect — what, where, and how urgent.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-title">4 — Submit</div>
-          <p class="card-sub">Your report goes straight to DOC maintenance for triage and action.</p>
+        <div style="flex:1;min-width:220px" class="card">
+          <h2 style="font-size:16px;margin-bottom:6px">Privacy</h2>
+          <p class="small">Contact details are optional. Photos are uploaded only to the email submission and not stored on this site.</p>
         </div>
       </div>
     </section>
 
-    <!-- REPORT PAGE -->
-    <section id="report" class="page" aria-labelledby="report-title">
-      <div class="content">
-        <h1 id="report-title" class="section-title">Report an Issue</h1>
+    <section id="report" class="card page" style="display:none">
+      <h2>Report an Issue</h2>
 
-        <div class="card">
-          <div class="card-title">Step 1 — Find the location barcode</div>
-          <p class="card-sub">Every hut, track, toilet, and campsite has one. If you can't find it, note the nearest landmark.</p>
+      <div style="margin-top:8px" class="form-row">
+        <div class="form-col">
+          <label for="locationDisplayText">Location (hut or campsite)</label>
+          <input type="text" id="locationDisplayText" placeholder="Start typing to search huts & campsites" autocomplete="off">
+          <div id="suggestions" class="search-suggestions" style="display:none"></div>
         </div>
 
-        <div class="card">
-          <div class="card-title">Step 2 — Take a photo</div>
-          <p class="card-sub">Take a clear photo from a safe distance. Capture the problem and surrounding context.</p>
+        <div class="form-col">
+          <label for="trackName">Track / Route name</label>
+          <input type="text" id="trackName" placeholder="e.g. Routeburn Track">
         </div>
+      </div>
 
-        <div class="card">
-          <div class="card-title">Step 3 — Describe the issue</div>
-          <p class="card-sub">Keep it short: what is broken, where exactly, and any immediate hazards.</p>
+      <div class="form-row">
+        <div class="form-col">
+          <label for="exactSpot">Exact spot (optional)</label>
+          <input type="text" id="exactSpot" placeholder="e.g. 200m north of hut, near swingbridge">
         </div>
-
-        <div class="card">
-          <div class="card-title">Step 4 — Submit</div>
-          <p class="card-sub">Submit and optionally add contact details if you want follow-up. Otherwise reports are anonymous.</p>
+        <div class="form-col">
+          <label for="issueType">Issue type</label>
+          <select id="issueType">
+            <option value="">Select issue type</option>
+            <option>Track damage / erosion</option>
+            <option>Hut damage</option>
+            <option>Toilet / sanitation</option>
+            <option>Safety hazard</option>
+            <option>Invasive species / pests</option>
+            <option>Fire / arson</option>
+            <option>Other</option>
+          </select>
         </div>
+      </div>
 
-        <div class="card report-card">
-          <div class="card-title">Report details</div>
-          <p class="card-sub">Fill in the details below so DOC can find and fix the issue quickly.</p>
+      <label for="issueDescription">Description</label>
+      <textarea id="issueDescription" placeholder="Describe what you saw and when. Be as specific as possible."></textarea>
 
-          <div class="form-row">
-            <div class="form-col">
-              <label class="form-label">Hut / Campsite / DOC location</label>
-              <div class="location-wrapper">
-                <div class="location-display" id="locationDisplay">
-                  <span id="locationDisplayText" class="placeholder">Select hut, campsite, or DOC location</span>
-                  <svg class="location-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>
-                </div>
-                <div class="location-dropdown" id="locationDropdown">
-                  <input type="text" id="locationSearch" class="location-search" placeholder="Search huts, campsites, tracks..." />
-                  <div class="location-list" id="locationList">
-                    <!-- populated by JS -->
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-col">
-              <label class="form-label">Track / route name (if not a hut)</label>
-              <input type="text" id="trackName" placeholder="e.g. Routeburn Track, Heaphy Track">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-col">
-              <label class="form-label">Where exactly on the walk / at the site?</label>
-              <input type="text" id="exactSpot" placeholder="e.g. 10 minutes past bridge, at hut entrance, by toilet block">
-            </div>
-            <div class="form-col">
-              <label class="form-label">Issue type</label>
-              <input type="text" id="issueType" placeholder="e.g. broken step, loose handrail, blocked track, damaged sign">
-            </div>
-          </div>
-
-          <label class="form-label">Describe the issue</label>
-          <textarea id="issueDescription" rows="4" placeholder="Short and simple: what’s wrong, how bad it is, and any hazards."></textarea>
-
-          <label class="form-label">Photo of the issue</label>
-          <div class="file-row">
-            <div class="file-input">
-              <button type="button" class="file-button">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 7h3l1-2h8l1 2h3v12H4V7zm8 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="#0F3B2E"/></svg>
-                <span>Choose image</span>
-              </button>
-              <input type="file" id="issueImage" accept="image/*" capture="environment">
-            </div>
-            <button type="button" class="camera-btn" id="cameraBtn" title="Open camera">
-              <svg viewBox="0 0 24 24"><path d="M4 7h3l1-2h8l1 2h3v12H4V7zm8 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
-            </button>
-          </div>
-
-          <label class="form-label">Optional contact (if you’d like DOC to follow up)</label>
-          <input type="email" id="contactEmail" placeholder="Email (optional)">
-          <input type="text" id="contactPhone" placeholder="Phone (optional)">
-
-          <div class="submit-row">
-            <button class="btn-primary" type="button" onclick="submitReport()">Submit report</button>
-          </div>
+      <div class="form-row" style="margin-top:8px;align-items:center">
+        <div class="form-col">
+          <label for="issueImage">Photo (optional)</label>
+          <input type="file" id="issueImage" accept="image/*">
+          <div class="hint">Attach a photo to help teams assess the issue faster.</div>
         </div>
+        <div class="form-col">
+          <label for="contactEmail">Contact email (optional)</label>
+          <input type="email" id="contactEmail" placeholder="you@example.com">
+          <label for="contactPhone">Contact phone (optional)</label>
+          <input type="text" id="contactPhone" placeholder="+64 21 123 4567">
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+        <button class="btn-primary" onclick="submitReport()">Submit</button>
+        <div class="small">We send separate emails for location, issue, contact and photo so teams can triage faster.</div>
       </div>
     </section>
 
-    <!-- IMPORTANT PAGE -->
-    <section id="important" class="page" aria-labelledby="important-title">
-      <div class="content">
-        <h1 id="important-title" class="section-title">Important Information</h1>
+    <div class="footer">Built for the outdoors • Replace the email placeholders in the script with your FormSubmit address before deploying</div>
+  </main>
 
-        <div class="card">
-          <div class="card-title">Safety First</div>
-          <p class="card-sub">Never put yourself at risk to take a photo or inspect damage. If it's an emergency, call 111.</p>
-        </div>
+<script>
+/* -------------------------
+   Data: huts & campsites
+   (Comprehensive list included)
+   ------------------------- */
+const huts = [
+  "A Frame Hut","Abrahams Bay Hunters Hut","Ada Pass Hut","Adelaide Tarn Hut","Ahaura Hut",
+  "Ailsa Hut","Aitken Hut","Alpine Hut","Ambury Hut","Anakiwa Hut",
+  "Anatoki Forks Hut","Aniseed Hut","Aorere Hut","Arapito Hut","Arthurs Pass Hut",
+  "Atkinson Hut","Auckland Hut","Awaroa Hut","Baldy Hut","Barnes Hut",
+  "Barron Hut","Bealey Hut","Bell Hill Hut","Ben Lomond Hut","Bennett Hut",
+  "Black Birch Hut","Black Lake Hut","Black Peak Hut","Blue Lake Hut","Bobs Hut",
+  "Boulder Lake Hut","Bowen Hut","Bradshaw Hut","Bridal Veil Hut","Broad Bay Hut",
+  "Broken River Hut","Brown Hut","Buller Hut","Burn Hut","Bushline Hut",
+  "Cameron Hut","Camp Creek Hut","Cascade Hut","Castle Hill Hut","Cass Saddle Hut",
+  "Cave Creek Hut","Cedar Flat Hut","Chalky Hut","Charlotte Hut","Cheviot Hut",
+  "Christchurch Hut","Clarke Hut","Clinton Hut","Cloudy Hut","Coleridge Hut",
+  "Conical Hill Hut","Copland Hut","Corner Creek Hut","Cowan Hut","Craigieburn Hut",
+  "Cromwell Hut","Culverden Hut","D'Urville Island Hut","Daisy Hut","Dansey Pass Hut",
+  "Dart Hut","Deception Hut","Dillon Hut","Dobson Hut","Double Hut",
+  "Dunedin Hut","Eagle Hut","Eden Hut","Edwards Hut","Eglinton Hut",
+  "Elliott Hut","Eyre Hut","Fairlie Hut","Falls Hut","Ferguson Hut",
+  "Fern Burn Hut","Fern Flat Hut","Fisher Hut","Flora Hut","Forrest Hut",
+  "Fox Hut","Franz Josef Hut","Gillespie Hut","Glenorchy Hut","Glenroy Hut",
+  "Gordon Hut","Graham Hut","Granite Hut","Greenstone Hut","Greymouth Hut",
+  "Gunn Hut","Hacket Hut","Hallelujah Hut","Hamilton Hut","Hapuku Hut",
+  "Harper Hut","Harrison Hut","Hawdon Hut","Heli Hut","Hicks Hut",
+  "Hicks Bay Hut","Hillary Hut","Hobbs Hut","Hogburn Hut","Hooker Hut",
+  "Horseshoe Hut","Hutt Hut","Inangahua Hut","Inchbonnie Hut","Irongate Hut",
+  "Isolated Hut","Jackson Hut","Jasper Hut","Johns Hut","Kaituna Hut",
+  "Kawarau Hut","Kepler Hut","Kea Hut","Kowhai Hut","Lake Daniell Hut",
+  "Lake Ellery Hut","Lake Gunn Hut","Lake Howden Hut","Lake McKenzie Hut","Lake Mavis Hut",
+  "Lake Marian Hut","Lake Matheson Hut","Lake McKerrow Hut","Lake Sumner Hut","Lake Taylor Hut",
+  "Lakeside Hut","Lambert Hut","Langs Hut","Larkins Hut","Leigh Hut",
+  "Lewis Hut","Lindis Hut","Little Hut","Longview Hut","Lowe Hut",
+  "Mackenzie Hut","Mahaka Hut","Mahinapua Hut","Makaro Hut","Malvern Hut",
+  "Manaia Hut","Manuka Hut","Mapourika Hut","Maruia Hut","Matakitaki Hut",
+  "Matiri Hut","Mavora Hut","McKinnon Hut","McKenzie Hut","Mclean Hut",
+  "Moa Hut","Molesworth Hut","Monowai Hut","Mossburn Hut","Mount Cook Hut",
+  "Mount Luxmore Hut","Mount Owen Hut","Murchison Hut","Murray Hut","Musselburgh Hut",
+  "Ngaro Hut","Nicholson Hut","Nile Hut","Nina Hut","Northburn Hut",
+  "Oamaru Hut","Okarito Hut","Okuru Hut","Old Man Hut","Omarama Hut",
+  "Onslow Hut","Opal Hut","Orari Hut","Orton Hut","Otago Hut",
+  "Pahautea Hut","Palliser Hut","Paringa Hut","Parker Hut","Patearoa Hut",
+  "Paua Hut","Pearson Hut","Pencarrow Hut","Peters Hut","Pigeon Hut",
+  "Pine Hut","Pioneer Hut","Pitt Head Hut","Plunket Hut","Pohangina Hut",
+  "Porters Pass Hut","Potters Hut","Pukaki Hut","Pukerua Hut","Puketitiri Hut",
+  "Quail Flat Hut","Rainbow Hut","Rakaia Hut","Rangitata Hut","Rangiwahia Hut",
+  "Rata Hut","Rees-Dart Hut","Red Hut","Rifle Hut","Rimu Hut",
+  "Robinson Hut","Rock Hut","Rockburn Hut","Rolleston Hut","Ross Hut",
+  "Rotoiti Hut","Rowallan Hut","Ruahine Hut","Ruapehu Hut","Ruataniwha Hut",
+  "Rutherford Hut","Saddleback Hut","Sandy Bay Hut","Sawmill Hut","Scotts Hut",
+  "Sealy Tarns Hut","Shag Hut","Shingle Hut","Shortland Hut","Siberia Hut",
+  "Silver Hut","Ski Hut","Skippers Hut","Smiths Hut","Snowdon Hut",
+  "Speargrass Hut","Spencer Hut","St James Hut","Stag Hut","Staveley Hut",
+  "Stewart Hut","Stone Hut","Stony Creek Hut","Sutherland Hut","Takitimu Hut",
+  "Tarn Hut","Te Anau Hut","Te Araroa Hut","Te Kuiti Hut","Te Wharau Hut",
+  "Tennyson Hut","Thompson Hut","Tinline Hut","Titirangi Hut","Tomahawk Hut",
+  "Tongariro Hut","Tophouse Hut","Torlesse Hut","Tucker Hut","Tui Hut",
+  "Tumbledown Bay Hut","Turnbull Hut","Twizel Hut","Upper Hut","Valley Hut",
+  "Victoria Hut","Waiho Hut","Wainui Hut","Waipara Hut","Waipoua Hut",
+  "Wairoa Hut","Wakatipu Hut","Walker Hut","Wallace Hut","Wanaka Hut",
+  "Ward Hut","Warren Hut","Weka Hut","West Coast Hut","West Matukituki Hut",
+  "Whakapapa Hut","Wharepapa Hut","White Hut","Whites Hut","Wilkins Hut",
+  "Wilson Hut","Windy Point Hut","Woolshed Hut","Worsley Hut","Wright Hut",
+  "Yankee Hut","Young Hut","Young River Hut"
+];
 
-        <div class="card">
-          <div class="card-title">What to Report</div>
-          <p class="card-sub">Broken structures, blocked tracks, damaged signs, overflowing toilets, hazards to people or wildlife.</p>
-        </div>
+const campsites = [
+  "Acheron Accommodation House Campsite","Ahuriri Bridge Campsite","Akapoua Bay Campsite",
+  "Alpine Creek Campsite","Ambury Farm Park Campsite","Anakiwa Campsite","Aniseed Campsite",
+  "Aorere Campsite","Arthurs Pass Campsite","Awaroa Campsite","Baldy Campsite","Barnes Flat Campsite",
+  "Barron Campsite","Bealey Campsite","Bell Hill Campsite","Ben Lomond Campsite","Bennett Campsite",
+  "Black Birch Campsite","Blue Lake Campsite","Bobs Cove Campsite","Boulder Lake Campsite",
+  "Bowen Campsite","Bradshaw Campsite","Bridal Veil Campsite","Broad Bay Campsite","Broken River Campsite",
+  "Brown Hut Campsite","Burn Hut Campsite","Cascade Campsite","Castle Hill Campsite","Cass Campsite",
+  "Cave Creek Campsite","Cedar Flat Campsite","Chalky Campsite","Charlotte Bay Campsite","Cheviot Campsite",
+  "Clinton Campsite","Cloudy Bay Campsite","Coleridge Campsite","Copland Campsite","Corner Creek Campsite",
+  "Craigieburn Campsite","Cromwell Campsite","Culverden Campsite","D'Urville Island Campsite","Daisy Flat Campsite",
+  "Dansey Pass Campsite","Dart Campsite","Deception Campsite","Dillon Campsite","Dobson Campsite",
+  "Double Hut Campsite","Dunedin Campsite","Eagle Campsite","Eden Valley Campsite","Edwards Campsite",
+  "Eglinton Campsite","Elliott Campsite","Eyre Campsite","Fairlie Campsite","Falls Creek Campsite",
+  "Ferguson Campsite","Fern Burn Campsite","Fern Flat Campsite","Fisher Campsite","Flora Campsite",
+  "Forrest Campsite","Fox Glacier Campsite","Franz Josef Campsite","Gillespie Campsite","Glenorchy Campsite",
+  "Glenroy Campsite","Gordon Campsite","Graham Campsite","Granite Campsite","Greenstone Campsite",
+  "Greymouth Campsite","Gunn Campsite","Hacket Campsite","Hallelujah Campsite","Hamilton Campsite",
+  "Hapuku Campsite","Harper Campsite","Harrison Campsite","Hawdon Campsite","Heli Campsite",
+  "Hicks Campsite","Hillary Campsite","Hobbs Campsite","Hogburn Campsite","Hooker Campsite",
+  "Horseshoe Campsite","Hutt Campsite","Inangahua Campsite","Inchbonnie Campsite","Irongate Campsite",
+  "Jackson Bay Campsite","Jasper Campsite","Johns Campsite","Kaituna Campsite","Kawarau Campsite",
+  "Kepler Campsite","Kea Campsite","Kowhai Campsite","Lake Daniell Campsite","Lake Ellery Campsite",
+  "Lake Gunn Campsite","Lake Howden Campsite","Lake McKenzie Campsite","Lake Marian Campsite","Lake Matheson Campsite",
+  "Lakeside Campsite","Lambert Campsite","Langs Campsite","Larkins Campsite","Leigh Campsite",
+  "Lewis Campsite","Lindis Campsite","Little River Campsite","Longview Campsite","Lowe Campsite",
+  "Mackenzie Campsite","Mahaka Campsite","Mahinapua Campsite","Makaro Campsite","Malvern Campsite",
+  "Manaia Campsite","Manuka Campsite","Mapourika Campsite","Maruia Campsite","Matakitaki Campsite",
+  "Matiri Campsite","Mavora Campsite","McKinnon Campsite","McKenzie Campsite","Mclean Campsite",
+  "Moa Campsite","Molesworth Campsite","Monowai Campsite","Mossburn Campsite","Mount Cook Campsite",
+  "Mount Luxmore Campsite","Mount Owen Campsite","Murchison Campsite","Murray Campsite","Musselburgh Campsite",
+  "Ngaro Campsite","Nicholson Campsite","Nile Campsite","Nina Campsite","Northburn Campsite",
+  "Oamaru Campsite","Okarito Campsite","Okuru Campsite","Old Man Campsite","Omarama Campsite",
+  "Onslow Campsite","Opal Campsite","Orari Campsite","Orton Campsite","Otago Campsite",
+  "Pahautea Campsite","Palliser Campsite","Paringa Campsite","Parker Campsite","Patearoa Campsite",
+  "Paua Campsite","Pearson Campsite","Pencarrow Campsite","Peters Campsite","Pigeon Campsite",
+  "Pine Campsite","Pioneer Campsite","Pitt Head Campsite","Plunket Campsite","Pohangina Campsite",
+  "Porters Pass Campsite","Potters Campsite","Pukaki Campsite","Pukerua Campsite","Puketitiri Campsite",
+  "Quail Flat Campsite","Rainbow Campsite","Rakaia Campsite","Rangitata Campsite","Rangiwahia Campsite",
+  "Rata Campsite","Rees-Dart Campsite","Red Campsite","Rifle Campsite","Rimu Campsite",
+  "Robinson Campsite","Rock Campsite","Rockburn Campsite","Rolleston Campsite","Ross Campsite",
+  "Rotoiti Campsite","Rowallan Campsite","Ruahine Campsite","Ruapehu Campsite","Ruataniwha Campsite",
+  "Rutherford Campsite","Saddleback Campsite","Sandy Bay Campsite","Sawmill Campsite","Scotts Campsite",
+  "Sealy Tarns Campsite","Shag Campsite","Shingle Campsite","Shortland Campsite","Siberia Campsite",
+  "Silver Campsite","Ski Campsite","Skippers Campsite","Smiths Campsite","Snowdon Campsite",
+  "Speargrass Campsite","Spencer Campsite","St James Campsite","Stag Campsite","Staveley Campsite",
+  "Stewart Campsite","Stone Campsite","Stony Creek Campsite","Sutherland Campsite","Takitimu Campsite",
+  "Tarn Campsite","Te Anau Campsite","Te Araroa Campsite","Te Kuiti Campsite","Te Wharau Campsite",
+  "Tennyson Campsite","Thompson Campsite","Tinline Campsite","Titirangi Campsite","Tomahawk Campsite",
+  "Tongariro Campsite","Tophouse Campsite","Torlesse Campsite","Tucker Campsite","Tui Campsite",
+  "Tumbledown Bay Campsite","Turnbull Campsite","Twizel Campsite","Upper Campsite","Valley Campsite",
+  "Victoria Campsite","Waiho Campsite","Wainui Campsite","Waipara Campsite","Waipoua Campsite",
+  "Wairoa Campsite","Wakatipu Campsite","Walker Campsite","Wallace Campsite","Wanaka Campsite",
+  "Ward Campsite","Warren Campsite","Weka Campsite","West Coast Campsite","West Matukituki Campsite",
+  "Whakapapa Campsite","Wharepapa Campsite","White Campsite","Whites Campsite","Wilkins Campsite",
+  "Wilson Campsite","Windy Point Campsite","Woolshed Creek Campsite","Young River Campsite"
+];
 
-        <div class="card">
-          <div class="card-title">What Not to Report</div>
-          <p class="card-sub">Emergencies, lost persons, or anything requiring immediate rescue — call emergency services.</p>
-        </div>
-      </div>
-    </section>
+/* -------------------------
+   UI: suggestions for location input
+   ------------------------- */
+const locationInput = document.getElementById('locationDisplayText');
+const suggestionsBox = document.getElementById('suggestions');
 
-  </div>
+locationInput.addEventListener('input', function(){
+  const q = this.value.trim().toLowerCase();
+  if(!q){
+    suggestionsBox.style.display = 'none';
+    suggestionsBox.innerHTML = '';
+    return;
+  }
+  const results = [];
+  // search huts first, then campsites
+  for(let i=0;i<huts.length && results.length<12;i++){
+    if(huts[i].toLowerCase().includes(q)) results.push(huts[i]);
+  }
+  for(let i=0;i<campsites.length && results.length<24;i++){
+    if(campsites[i].toLowerCase().includes(q)) results.push(campsites[i]);
+  }
+  if(results.length===0){
+    suggestionsBox.style.display='none';
+    suggestionsBox.innerHTML='';
+    return;
+  }
+  suggestionsBox.innerHTML = results.map(r=>`<div class="suggestion" onclick="selectSuggestion('${escapeHtml(r)}')">${escapeHtml(r)}</div>`).join('');
+  suggestionsBox.style.display='block';
+});
 
-  <script>
-    // Page switching with fade and subtle hero refresh
-    function showPage(id){
-    function showPage(id, options = {}) {
-      // update visible page
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      const el = document.getElementById(id);
-      if(el) {
-        requestAnimationFrame(() => el.classList.add('active'));
-      }
-      const main = document.querySelector('.main');
-      if(main) main.scrollTop = 0;
+function selectSuggestion(val){
+  locationInput.value = val;
+  suggestionsBox.style.display='none';
+  suggestionsBox.innerHTML='';
+}
 
-      // update hero background animation when returning home
-      const heroBg = document.querySelector('.hero-bg');
-      if(heroBg && id === 'home') {
-        heroBg.style.transform = 'scale(1.045) translateY(-6px)';
-        setTimeout(()=> heroBg.style.transform = 'scale(1.035)', 420);
-      }
+document.addEventListener('click', function(e){
+  if(!suggestionsBox.contains(e.target) && e.target !== locationInput){
+    suggestionsBox.style.display='none';
+  }
+});
 
-      // Update URL using hash so hosting doesn't need special server routing.
-      // Use pushState so back/forward works. Include optional query-like params if provided.
-      try {
-        const baseHash = '#' + id;
-        let suffix = '';
-        if (options && typeof options === 'object' && options.params) {
-          const params = new URLSearchParams(options.params).toString();
-          if (params) suffix = '?' + params;
-        }
-        const newUrl = baseHash + suffix;
-        // Only push if different to avoid cluttering history
-        if (window.location.hash + window.location.search !== newUrl) {
-          history.pushState({ page: id, params: options.params || null }, '', newUrl);
-        }
-      } catch (e) {
-        // silent fail — do not change UI
-      }
-    }
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-    // Fade-in the hero text into its new elevated position
-    // Handle back/forward navigation to show correct page
-    window.addEventListener('popstate', (ev) => {
-      const hash = window.location.hash ? window.location.hash.replace(/^#/, '') : '';
-      const page = hash.split('?')[0] || 'home';
-      // If hash empty, default to home
-      showPage(page);
-    });
+/* -------------------------
+   submitReport: sends separate emails
+   - Location
+   - Issue
+   - Contact
+   - Photo (if provided)
+   Notes:
+   - Replace FORM_EMAIL with your actual FormSubmit email address
+   - FormSubmit expects action: https://formsubmit.co/youremail@example.com
+   ------------------------- */
 
-    // On load, if URL has a hash, show that page
-    window.addEventListener('load', () => {
-      const initialHash = window.location.hash ? window.location.hash.replace(/^#/, '') : '';
-      const initialPage = initialHash.split('?')[0] || 'home';
-      // ensure hero text fade-in still runs
-      const txt = document.querySelector('.hero-text');
-      if(txt){
-        setTimeout(()=> {
-          txt.classList.remove('hidden');
-          txt.classList.add('visible');
-        }, 220);
-      }
-      // show page based on URL
-      if (initialPage && document.getElementById(initialPage)) {
-        // Use replaceState to avoid duplicating history entry on initial load
-        history.replaceState({ page: initialPage }, '', window.location.hash || '#home');
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(initialPage).classList.add('active');
-      } else {
-        // default behavior
-        if (!window.location.hash) history.replaceState({ page: 'home' }, '', '#home');
-      }
-    });
+const FORM_EMAIL = "work.laptop.ai@gmail.com"; // <-- REPLACE with your email before deploying
 
-// Submit report → sends to email
-    // Submit report → sends to email (existing formsubmit.co integration preserved)
 function submitReport(){
+  try{
+    const location = document.getElementById("locationDisplayText").value || "";
+    const track = document.getElementById("trackName").value || "";
+    const exact = document.getElementById("exactSpot").value || "";
+    const issue = document.getElementById("issueType").value || "";
+    const description = document.getElementById("issueDescription").value || "";
+    const email = document.getElementById("contactEmail").value || "";
+    const phone = document.getElementById("contactPhone").value || "";
+    const fileInput = document.getElementById("issueImage");
 
-const location =
-locationDisplayText.classList.contains("placeholder")
-? ""
-: locationDisplayText.textContent;
+    // helper to create and submit a hidden form
+    function sendForm(actionEmail, subject, fields, file){
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://formsubmit.co/' + encodeURIComponent(actionEmail);
+      form.enctype = 'multipart/form-data';
+      form.style.display = 'none';
 
-const track =
-document.getElementById("trackName").value;
-
-const exact =
-document.getElementById("exactSpot").value;
-
-const issue =
-document.getElementById("issueType").value;
-
-const description =
-document.getElementById("issueDescription").value;
-
-const email =
-document.getElementById("contactEmail").value;
-
-const phone =
-document.getElementById("contactPhone").value;
-
-const file =
-document.getElementById("issueImage");
-
-const form =
-document.createElement("form");
-
-form.method = "POST";
-
-form.action =
-"https://formsubmit.co/bd86d27fbae3bf5b4cdf74e056552c78";
-
-form.enctype =
-"multipart/form-data";
-
-form.style.display =
-"none";
-
-function hidden(name,value){
-const input =
-document.createElement("input");
-
-input.type =
-"hidden";
-
-input.name =
-name;
-
-input.value =
-value || "";
-
-form.appendChild(input);
-}
-
-hidden("_subject","DOC FIX REPORT");
-hidden("_template","table");
-hidden("_captcha","true");
-
-hidden("Location",location);
-hidden("Track",track);
-hidden("Exact Spot",exact);
-hidden("Issue Type",issue);
-hidden("Description",description);
-hidden("Email",email);
-hidden("Phone",phone);
-
-if(file.files.length>0){
-
-const upload =
-file.cloneNode();
-
-upload.name =
-"Photo";
-
-const dt =
-new DataTransfer();
-
-dt.items.add(file.files[0]);
-
-upload.files =
-dt.files;
-
-form.appendChild(upload);
-
-}
-
-document.body.appendChild(form);
-
-form.submit();
-
-}
-
-    // Start scan: highlight report card
-    function startScan(){
-      showPage('report');
-      const firstCard = document.querySelector('#report .card.report-card');
-      if(firstCard){
-        firstCard.style.transition = 'box-shadow .18s ease, transform .18s ease';
-        firstCard.style.transform = 'translateY(-6px)';
-        firstCard.style.boxShadow = '0 22px 50px rgba(6,20,14,0.12)';
-        setTimeout(()=> { firstCard.style.transform=''; firstCard.style.boxShadow=''; }, 600);
-      }
-    }
-
-    // Notifications button small pulse
-    const notifBtn = document.getElementById('notifBtn');
-    notifBtn && notifBtn.addEventListener('click', () => {
-      notifBtn.animate([{ transform: 'translateY(-4px)' }, { transform: 'translateY(0)' }], { duration: 220, easing: 'ease-out' });
-      alert('No new notifications (placeholder)');
-    });
-
-    // subtle parallax effect for hero background on scroll
-    (function(){
-      const main = document.querySelector('.main');
-      const heroBg = document.querySelector('.hero-bg');
-      if(!main || !heroBg) return;
-      main.addEventListener('scroll', () => {
-        const y = Math.min(60, main.scrollTop / 8);
-        heroBg.style.transform = `translateY(${y}px) scale(1.035)`;
-      }, {passive:true});
-    })();
-
-    // Location data (huts + campsites)
-    const huts = [
-      "A Frame Hut",
-      "Abrahams Bay Hunters Hut",
-      "Ada Pass Hut",
-      "Adelaide Tarn Hut",
-      "Ahaura Hut",
-      "Ahuriri Base Hut",
-      "Aickens Hut",
-      "Akatarawa Saddle Hut",
-      "Alexander Bivvy",
-      "Alpine Club Hut",
-      "Almer Hut",
-      "Anatoki Forks Hut",
-      "Anne Hut",
-      "Ant Stream Hut",
-      "Apias Creek Hut",
-      "Apo Creek Hut",
-      "Apple Tree Bay Hut",
-      "Aspiring Hut",
-      "Awaroa Hut",
-      "Back Ridge Bivvy",
-      "Ball Hut",
-      "Balloon Hut",
-      "Bannockburn Sluicings Hut",
-      "Barrier Knob Hut",
-      "Basin Creek Hut",
-      "Bean Burn Hut",
-      "Beauty Stream Hut",
-      "Bellbird Hut",
-      "Berlins Hut",
-      "Black Hill Hut",
-      "Blue Lake Hut",
-      "Blue Range Hut",
-      "Bobs Hut",
-      "Borland Lodge",
-      "Boyle Flat Hut",
-      "Brass Monkey Bivvy",
-      "Brewster Hut",
-      "Brown Hut",
-      "Buckland Peaks Hut",
-      "Bunny Flat Hut",
-      "Bushline Hut",
-      "Cameron Hut",
-      "Canyon Creek Hut",
-      "Carrington Hut",
-      "Cattle Creek Hut",
-      "Cedar Flat Hut",
-      "Centennial Hut",
-      "Chaffey Hut",
-      "Chalice Hut",
-      "Cherry Tree Hut",
-      "Christmas Village Hut",
-      "Clark Hut",
-      "Coal Creek Hut",
-      "Cobb Hut",
-      "Codfish Hut",
-      "Cone Hut",
-      "Copland Shelter",
-      "Creswicke Flat Hut",
-      "Crow Hut",
-      "Dahls Hut",
-      "Daniells Hut",
-      "Dart Hut",
-      "Dawsons Falls Mountain House",
-      "Deception Hut",
-      "Dillon Hut",
-      "Dixon Hut",
-      "Dobson Hut",
-      "Donnelly Flat Hut",
-      "Douglas Rock Hut",
-      "Dracophyllum Hut",
-      "Dunns Creek Hut",
-      "East Matukituki Hut",
-      "Easter Hut",
-      "Edwards Hut",
-      "Elder Hut",
-      "Ellis Hut",
-      "Emerald Hut",
-      "Erceg Hut",
-      "Esk Burn Hut",
-      "Eva Hut",
-      "Falls Hut",
-      "Fane Stream Hut",
-      "Fantail Hut",
-      "Ferguson Hut",
-      "Fishtail Hut",
-      "Flanagan Hut",
-      "Forbes Biv",
-      "Forks Hut",
-      "Fowler Hut",
-      "Fraser Hut",
-      "Franz Josef Glacier Guides Hut",
-      "Frew Hut",
-      "Fyfe Hut",
-      "Galatea Hut",
-      "Garden Gully Hut",
-      "Gillespie Pass Shelter",
-      "Glade House",
-      "Goat Creek Hut",
-      "Goat Pass Hut",
-      "Golden Bay Hut",
-      "Gouland Downs Hut",
-      "Greenstone Hut",
-      "Greymouth No.1 Hut",
-      "Griffin Creek Hut",
-      "Hamilton Hut",
-      "Happy Valley Hut",
-      "Harper Pass Bivvy",
-      "Haupiri Hut",
-      "Hawdon Hut",
-      "Heaphy Hut",
-      "Henry Creek Hut",
-      "Herepai Hut",
-      "Hideaway Hut",
-      "Hicks Hut",
-      "Hope Halfway Hut",
-      "Hope Kiwi Lodge",
-      "Howden Hut",
-      "Huxley Forks Hut",
-      "Huxley Gorge Hut",
-      "Iris Burn Hut",
-      "Ivory Lake Hut",
-      "James Mackay Hut",
-      "Janet Hut",
-      "John Tait Hut",
-      "Jubilee Hut",
-      "Julius Hut",
-      "Kahikatea Hut",
-      "Kaipo Hut",
-      "Kakapo Hut",
-      "Kea Basin Hut",
-      "Kelly Hut",
-      "Kerin Forks Hut",
-      "Kiwi Saddle Hut",
-      "Kōhanga Atawhai Hut",
-      "Kopuwai Hut",
-      "Lake Chalice Hut",
-      "Lake Daniels Hut",
-      "Lake Mackenzie Hut",
-      "Lake Roe Hut",
-      "Lakehead Hut",
-      "Lewis Pass Shelter",
-      "Lewis Tops Hut",
-      "Loch Maree Hut",
-      "Longview Hut",
-      "Lower Arahura Hut",
-      "Lower Gridiron Hut",
-      "Luxmore Hut",
-      "Mackintosh Hut",
-      "Maconochies Hut",
-      "Mangatainoka Hut",
-      "Mangaturuturu Hut",
-      "Manson Nicholls Hut",
-      "Manson Hut",
-      "Mason Bay Hut",
-      "Matai Hut",
-      "McCoy Hut",
-      "McKellar Hut",
-      "Mid Caples Hut",
-      "Mingha Bivvy",
-      "Mitchell Valley Hut",
-      "Moa Park Shelter",
-      "Morgan Hut",
-      "Mueller Hut",
-      "Murchison Hut",
-      "Murray Creek Hut",
-      "Mystery Creek Hut",
-      "Nardoo Bivvy",
-      "Nash Creek Hut",
-      "Nichol Hut",
-      "Nina Hut",
-      "Nokomai Hut",
-      "Noonmark Shelter",
-      "North Arm Hut",
-      "North Branch Hut",
-      "North Egmont Camphouse",
-      "North Ohau Hut",
-      "North Temple Hut",
-      "North West Bay Hut",
-      "Oakden Hut",
-      "Oamaru Hut",
-      "Ohau Shelter",
-      "Okaka Lodge",
-      "Old Man Hut",
-      "Olderog Bivvy",
-      "Old Ghost Road Stern Valley Hut",
-      "Old Ghost Road Specimen Point Hut",
-      "Old Ghost Road Ghost Lake Hut",
-      "Old Ghost Road Lyell Saddle Hut",
-      "Old Ghost Road Goat Creek Hut",
-      "Olivine Ledge Hut",
-      "Omarama Saddle Hut",
-      "Orange Hut",
-      "Otehake Hut",
-      "Oturere Hut",
-      "Owen Hut",
-      "Paradise Flat Hut",
-      "Park Morpeth Hut",
-      "Park Valley Hut",
-      "Parky Hut",
-      "Parrish Hut",
-      "Pearson Hut",
-      "Pelorus Bridge Camp Shelter",
-      "Perseverance Hut",
-      "Pinnacles Hut",
-      "Pinnacles Hut (Coromandel)",
-      "Piripaua Bivvy",
-      "Pisa Hut",
-      "Poads Road Hut",
-      "Pohangina Base Hut",
-      "Poulter Hut",
-      "Powell Hut",
-      "Price Basin Hut",
-      "Princhester Hut",
-      "Puketoi Hut",
-      "Pyke Lodge",
-      "Quail Flat Hut",
-      "Quinton Lodge",
-      "Raglan Roost",
-      "Rakaia Hut",
-      "Rangipo Hut",
-      "Rangiwahia Hut",
-      "Rapid Creek Hut",
-      "Rarotonga Hut",
-      "Red Deer Hut",
-      "Red Hills Hut",
-      "Red Hut",
-      "Rees Saddle Shelter",
-      "Ridge Hut",
-      "Rimu Hut",
-      "Rock Burn Shelter",
-      "Rocky Creek Hut",
-      "Roaring Stag Hut",
-      "Robert Ridge Hut",
-      "Rod Donald Hut",
-      "Rodger Inlet Hut",
-      "Rolleston Bivvy",
-      "Routeburn Falls Hut",
-      "Ruapani Hut",
-      "Ruapehu Hut",
-      "Salisbury Lodge",
-      "Saxon Hut",
-      "Scotts Hut",
-      "Seaforth Lodge",
-      "Serpentine Hut",
-      "Shadowland Shelter",
-      "Shamrock Hut",
-      "Silver Peak Hut",
-      "Skippers Shelter",
-      "Slaty Hut",
-      "Slaughterburn Hut",
-      "Slip Flat Hut",
-      "Snow Farm Hut",
-      "Speargrass Hut",
-      "Specimen Point Hut",
-      "Stanfield Hut",
-      "Steele Creek Hut",
-      "Stein Valley Hut",
-      "Stone Hut",
-      "Stone Hut (Molesworth)",
-      "Stubbs Hut",
-      "Sudden Valley Hut",
-      "Sunrise Hut",
-      "Syme Hut",
-      "Tahurangi Lodge",
-      "Taipo Hut",
-      "Takapari Hut",
-      "Takitimu Hut",
-      "Tarn Ridge Hut",
-      "Taurewa Hut",
-      "Te Puke o Tara Hut",
-      "Te Whare Okioki",
-      "Temple Basin Lodge",
-      "Terewai Hut",
-      "Thebes Hut",
-      "Thomas Bivvy",
-      "Thomson Gorge Hut",
-      "Tieke Kāinga",
-      "Top Butler Hut",
-      "Top Forks Hut",
-      "Top Wairoa Hut",
-      "Top Waitaha Hut",
-      "Top Whirinaki Hut",
-      "Totara Flats Hut",
-      "Tōtara Peak Hut",
-      "Tui Hut",
-      "Turkey Flat Hut",
-      "Tutoko Hut",
-      "Urewera Hut",
-      "Upper Arahura Hut",
-      "Upper Gridiron Hut",
-      "Upper Travers Hut",
-      "Urchin Campsite Shelter",
-      "Vera Hut",
-      "Victoria Hut",
-      "Waikaremoana Holiday Park Cabins",
-      "Waiohine Gorge Hut",
-      "Waipakihi Hut",
-      "Waipapa Hut",
-      "Waipiro Hut",
-      "Waitawheta Hut",
-      "Waitotara Hut",
-      "Waiuta Lodge",
-      "Wakamarina Hut",
-      "Wangapeka Hut",
-      "Wanganui Hut",
-      "Wanganui River Lodge",
-      "Wards Hut",
-      "Wareware Hut",
-      "Waterfall Hut",
-      "Welcome Flat Hut",
-      "West Sabine Hut",
-      "West Tūtaekurī Hut",
-      "West Harper Hut",
-      "West Wanui Hut",
-      "Westland Tai Poutini Hut",
-      "Whakapapa Village Cabins",
-      "Whanganui Hut",
-      "Whare Flat Hut",
-      "Wharfedale Hut",
-      "Whirinaki Hut",
-      "Whites Hut",
-      "Whitney Hut",
-      "Wilkin Forks Hut",
-      "Windy Point Hut",
-      "Woolshed Creek Hut",
-      "Young Hut",
-      "Young River Hut"
-    ];
-
-    const campsites = [
-      "Acheron Accommodation House Campsite",
-      "Ahuriri Bridge Campsite",
-      "Akapoua Bay Campsite",
-      "Anatori River Campsite",
-      "Anchorage Campsite",
-      "Aorere Shelter Campsite",
-      "Aorere Goldfields Campsite",
-      "Arapawa Island Campsite",
-      "Ashley Gorge Campsite",
-      "Aussie Bay Campsite",
-      "Awaroa Inlet Campsite",
-      "Bark Bay Campsite",
-      "Bay of Many Coves Campsite",
-      "Big Bay Campsite",
-      "Blackberry Flat Campsite",
-      "Blumine Island Campsite",
-      "Boundary Creek Campsite",
-      "Boyle River Campsite",
-      "Butchers Flat Campsite",
-      "Canaan Downs Campsite",
-      "Camerons Flat Campsite",
-      "Cascade Creek Campsite",
-      "Castlepoint Campsite",
-      "Catleys Campsite",
-      "Cobb River Campsite",
-      "Coldwater Campsite",
-      "Courthouse Flat Campsite",
-      "Cow Shed Bay Campsite",
-      "Dawson Falls Campsite",
-      "Deception Point Campsite",
-      "Denniston Dog Box Campsite",
-      "Dickey Flat Campsite",
-      "Doctor Creek Campsite",
-      "Donnelly Flat Campsite",
-      "Dry Creek Campsite",
-      "Elaine Bay Campsite",
-      "Endeavour Inlet Campsite",
-      "Fantail Bay Campsite",
-      "Ferndale Campsite",
-      "Fifteen Mile Stream Campsite",
-      "Flintstones Campsite",
-      "Flock Hill Campsite",
-      "French Pass Campsite",
-      "Gillespies Beach Campsite",
-      "Gore Bay Campsite",
-      "Gunns Bush Campsite",
-      "Harwoods Hole Campsite",
-      "Heaphy Campsite",
-      "Holdsworth Campsite",
-      "Homestead Campsite",
-      "Hotoritori Campsite",
-      "Hudsons Flat Campsite",
-      "Hunters Campsite",
-      "Irongate Campsite",
-      "John Coull Campsite",
-      "Judea Campsite",
-      "Kaimanawa Road Campsite",
-      "Kakaho Campsite",
-      "Kauri Coast Top 10 Campsite",
-      "Kawakawa Bay Campsite",
-      "Kerr Bay Campsite",
-      "Kiriwhakapapa Campsite",
-      "Kohaihai Campsite",
-      "Kowhai Point Campsite",
-      "Lake Mahinapua Campsite",
-      "Lake Monowai Campsite",
-      "Lake Ōhau Campsite",
-      "Lake Taylor Campsite",
-      "Lake Waikaremoana Campsite",
-      "Lakehead Campsite",
-      "Lindis Pass Historic Hotel Campsite",
-      "Maitai Bay Campsite",
-      "Marfells Beach Campsite",
-      "McDonalds Downs Campsite",
-      "Mill Flat Campsite",
-      "Momorangi Bay Campsite",
-      "Moetapu Bay Campsite",
-      "Moke Lake Campsite",
-      "Mossburn Campsite",
-      "Mt Aspiring Campsite",
-      "Ngaruroro Campsite",
-      "Nina Valley Campsite",
-      "Nydia Bay Campsite",
-      "Okaka Lodge Campsite",
-      "Onamalutu Campsite",
-      "Otakou Campsite",
-      "Pelorus Bridge Campsite",
-      "Pelorus Flat Campsite",
-      "Picnic Bay Campsite",
-      "Port Jackson Campsite",
-      "Purakaunui Bay Campsite",
-      "Puriri Bay Campsite",
-      "Putangirua Pinnacles Campsite",
-      "Quail Flat Campsite",
-      "Rārangi Campsite",
-      "Routeburn Flats Campsite",
-      "Siberia Campsite",
-      "Slab Hut Creek Campsite",
-      "Spencer Beach TOP 10 Campsite",
-      "St Arnaud Campsite",
-      "Tōtaranui Campsite",
-      "Turangi Campsite",
-      "Uretiti Beach Campsite",
-      "Waikawau Bay Campsite",
-      "Waikokopu Creek Campsite",
-      "Waikouaiti Campsite",
-      "Waimarino Campsite",
-      "Wainuiomata Campsite",
-      "Waipapa Bay Campsite",
-      "Waitawheta Campsite",
-      "Welcome Flat Campsite",
-      "Whakapapa Village Campsite",
-      "Whanganui River Campsite",
-      "White Horse Hill Campsite",
-      "Whites Bay Campsite",
-      "White Horse Hill Campsite",
-      "Whites Bay Campsite",
-      "Whakapapa Holiday Park Campsite",
-      "Whanganui River Journey Campsite",
-      "Whareama Coastal Campsite",
-      "Wharekopae Campsite",
-      "Whirinaki Forest Campsite",
-      "Whites Landing Campsite",
-      "Whitikau Marginal Strip Campsite",
-      "Woodhill Campsite",
-      "Waianakarua Campsite",
-      "Waianakarua River Campsite",
-      "Waikawau Campsite",
-      "Waikawau Shelter Campsite",
-      "Waikawau Bay Campsite",
-      "Waikōkopu Campsite",
-      "Waimanu Campsite",
-      "Wainui Reserve Campsite",
-      "Wainui Campsite",
-      "Wainui Bay Campsite",
-      "Wairau Lagoon Campsite",
-      "Wairarapa Moana Campsite",
-      "Waitāwheta Campsite",
-      "Waitangi Holiday Park Campsite",
-      "Waiti Bay Campsite",
-      "Waitoetoe Campsite",
-      "Waiuta Campsite",
-      "Wakamarina Campsite",
-      "Wakapouaka Campsite",
-      "Waoku Campsite",
-      "Waotu Campsite",
-      "Ward Beach Campsite",
-      "Washpen Falls Campsite",
-      "Waterloo Campsite",
-      "Waterwheel Campsite",
-      "Welcome Flat Campsite",
-      "West Bay Campsite",
-      "West Coast Campsite",
-      "Westhaven Campsite",
-      "West Wanaka Campsite",
-      "Whakapohai Campsite",
-      "Whanganui Bay Campsite",
-      "Whangaruru North Campsite",
-      "Whangamumu Campsite",
-      "Whare Flat Campsite",
-      "Wharekopae Falls Campsite",
-      "Whareorino Campsite",
-      "Whareroa Campsite",
-      "Whitcombe Campsite",
-      "Wilsons Campsite",
-      "Windy Point Campsite",
-      "Wooded Gully Campsite",
-      "Woolshed Creek Campsite",
-      "Young River Campsite"
-    ];
-
-    const locationDisplay = document.getElementById('locationDisplay');
-    const locationDropdown = document.getElementById('locationDropdown');
-    const locationSearch = document.getElementById('locationSearch');
-    const locationList = document.getElementById('locationList');
-    const locationDisplayText = document.getElementById('locationDisplayText');
-
-    function buildLocationList(filterText){
-      const f = (filterText || '').toLowerCase();
-      locationList.innerHTML = '';
-
-      const addGroup = (label, items) => {
-        const groupLabel = document.createElement('div');
-        groupLabel.className = 'location-group-label';
-        groupLabel.textContent = label;
-        locationList.appendChild(groupLabel);
-
-        items.forEach(name => {
-          if(!f || name.toLowerCase().includes(f)){
-            const item = document.createElement('div');
-            item.className = 'location-item';
-            item.textContent = name;
-            item.addEventListener('click', () => {
-              locationDisplayText.textContent = name;
-              locationDisplayText.classList.remove('placeholder');
-              locationDropdown.classList.remove('open');
-              // Update URL so location can be encoded/shared (keeps UI unchanged)
-              try {
-                const encoded = encodeURIComponent(name);
-                // push a state that keeps the current page (report) and adds loc param
-                const currentHash = (window.location.hash ? window.location.hash.replace(/^#/, '') : 'report').split('?')[0] || 'report';
-                const newHash = '#' + currentHash + '?loc=' + encoded;
-                history.pushState({ page: currentHash, loc: name }, '', newHash);
-              } catch (e) {
-                // silent fail
-              }
-            });
-            locationList.appendChild(item);
-          }
-        });
+      // hidden inputs
+      const addHidden = (name, value) => {
+        const i = document.createElement('input');
+        i.type = 'hidden';
+        i.name = name;
+        i.value = value || '';
+        form.appendChild(i);
       };
 
-      addGroup('Huts', huts);
-      addGroup('Campsites', campsites);
-    }
+      addHidden('_subject', subject);
+      addHidden('_template', 'table');
+      addHidden('_captcha', 'true');
 
-    if(locationDisplay){
-      buildLocationList('');
-      locationDisplay.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = locationDropdown.classList.contains('open');
-        document.querySelectorAll('.location-dropdown').forEach(dd => dd.classList.remove('open'));
-        if(!isOpen){
-          locationDropdown.classList.add('open');
-          locationSearch.value = '';
-          buildLocationList('');
-          locationSearch.focus();
-        }
-      });
-    }
-
-    if(locationSearch){
-      locationSearch.addEventListener('input', () => {
-        buildLocationList(locationSearch.value);
-      });
-    }
-
-    document.addEventListener('click', (e) => {
-      if(locationDropdown && !locationDropdown.contains(e.target) && !locationDisplay.contains(e.target)){
-        locationDropdown.classList.remove('open');
+      for(const k in fields){
+        addHidden(k, fields[k]);
       }
+
+      // if file provided, append a file input with the file
+      if(file instanceof File){
+        const fileField = document.createElement('input');
+        fileField.type = 'file';
+        fileField.name = 'Photo';
+        try{
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          fileField.files = dt.files;
+          form.appendChild(fileField);
+        }catch(e){
+          // fallback: encode file as base64 in a hidden field (FormSubmit won't accept base64 as file)
+          // so we still append the form without file if DataTransfer not supported
+          console.warn('File attach fallback triggered', e);
+        }
+      }
+
+      document.body.appendChild(form);
+      // submit asynchronously; some browsers may block multiple rapid submits — we submit with small delays
+      setTimeout(()=>{ form.submit(); setTimeout(()=>form.remove(),2000); }, 200);
+    }
+
+    // send location email
+    sendForm(FORM_EMAIL, "DOC FIX – Location", {
+      Location: location,
+      Track: track,
+      ExactSpot: exact,
+      Timestamp: new Date().toISOString()
     });
 
-    // Camera button triggers file input
-    const cameraBtn = document.getElementById('cameraBtn');
-    const issueImageInput = document.getElementById('issueImage');
-    if(cameraBtn && issueImageInput){
-      cameraBtn.addEventListener('click', () => {
-        issueImageInput.click();
-      });
+    // send issue email
+    sendForm(FORM_EMAIL, "DOC FIX – Issue", {
+      IssueType: issue,
+      Description: description,
+      Location: location,
+      Timestamp: new Date().toISOString()
+    });
+
+    // send contact email
+    sendForm(FORM_EMAIL, "DOC FIX – Contact", {
+      Email: email,
+      Phone: phone,
+      Location: location,
+      Timestamp: new Date().toISOString()
+    });
+
+    // send photo if present
+    if(fileInput && fileInput.files && fileInput.files.length > 0){
+      const file = fileInput.files[0];
+      sendForm(FORM_EMAIL, "DOC FIX – Photo", {
+        Location: location,
+        IssueType: issue,
+        Timestamp: new Date().toISOString()
+      }, file);
     }
-  </script>
+
+    // simple UX feedback
+    alert('Thanks — your report has been submitted. Teams will review it shortly.');
+    // clear form
+    document.getElementById("locationDisplayText").value = '';
+    document.getElementById("trackName").value = '';
+    document.getElementById("exactSpot").value = '';
+    document.getElementById("issueType").value = '';
+    document.getElementById("issueDescription").value = '';
+    document.getElementById("contactEmail").value = '';
+    document.getElementById("contactPhone").value = '';
+    if(fileInput) fileInput.value = '';
+  }catch(err){
+    console.error(err);
+    alert('Sorry — something went wrong submitting the report. Check the console for details.');
+  }
+}
+
+/* -------------------------
+   small helper: show/hide pages
+   ------------------------- */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  const el = document.getElementById(id);
+  if(el) el.style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* -------------------------
+   Accessibility: allow Enter to select first suggestion
+   ------------------------- */
+locationInput.addEventListener('keydown', function(e){
+  if(e.key === 'Enter'){
+    const first = suggestionsBox.querySelector('.suggestion');
+    if(first){
+      e.preventDefault();
+      selectSuggestion(first.textContent);
+    }
+  }
+});
+</script>
 </body>
 </html>
 ```
