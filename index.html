@@ -561,23 +561,16 @@
       .top-actions .btn{display:none}
     }
   </style>
-</style>
 </head>
 <body>
 
   <div class="topbar" role="banner" aria-label="Top navigation">
     <div class="brand" role="link" aria-label="DOC Fix home" onclick="showPage('home')">
-
-      <!-- LOGO ADDED -->
-      <img src="logo.png" class="brand-logo" alt="DOC Logo">
-
       <div>
         <div class="brand-mark">DOC FIX</div>
         <div class="brand-sub">Protecting Aotearoa's places</div>
       </div>
-
     </div>
-  </div>
 
     <div class="top-actions" role="navigation" aria-label="Top actions">
       <button class="btn" onclick="showPage('report')" title="Report an issue">Report</button>
@@ -622,7 +615,7 @@
 
         <div class="hero-inner">
           <div class="hero-text hidden" id="home-title">
-            <h1 class="hero-title">Protect places worth keeping.</h1>
+            <h1 class="hero-title">Protect places worth keeping.</h1>            <h1 class="hero-title">Protect places worth keeping.</h1>
             <p class="hero-sub">
               Found an issue at a hut, campsite, track, shelter, toilet, bridge, sign, or conservation area?
               Submit a report in under 60 seconds — quick, simple, and built for the outdoors.
@@ -804,17 +797,6 @@
         }, 220);
       }
     });
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-logo {
-  height: 48px;
-  width: auto;
-  object-fit: contain;
-}
 
     function startScan(){
       showPage('report');
@@ -949,79 +931,139 @@
       "Woolshed Creek Campsite","Young River Campsite"
     ];
 
-const locationDisplay = document.getElementById('locationDisplay');
-const locationDropdown = document.getElementById('locationDropdown');
-const locationSearch = document.getElementById('locationSearch');
-const locationList = document.getElementById('locationList');
-const locationDisplayText = document.getElementById('locationDisplayText');
+    const locationDisplay = document.getElementById('locationDisplay');
+    const locationDropdown = document.getElementById('locationDropdown');
+    const locationSearch = document.getElementById('locationSearch');
+    const locationList = document.getElementById('locationList');
+    const locationDisplayText = document.getElementById('locationDisplayText');
 
-function buildLocationList(filterText){
-  const f = (filterText || '').toLowerCase();
-  locationList.innerHTML = '';
+    function buildLocationList(filterText){
+      const f = (filterText || '').toLowerCase();
+      locationList.innerHTML = '';
 
-  const addGroup = (label, items) => {
-    const groupLabel = document.createElement('div');
-    groupLabel.className = 'location-group-label';
-    groupLabel.textContent = label;
-    locationList.appendChild(groupLabel);
+      const addGroup = (label, items) => {
+        const groupLabel = document.createElement('div');
+        groupLabel.className = 'location-group-label';
+        groupLabel.textContent = label;
+        locationList.appendChild(groupLabel);
 
-    items.forEach(name => {
-      if(!f || name.toLowerCase().includes(f)){
-        const item = document.createElement('div');
-        item.className = 'location-item';
-        item.textContent = name;
-        item.addEventListener('click', () => {
-          locationDisplayText.textContent = name;
-          locationDisplayText.classList.remove('placeholder');
-          locationDropdown.classList.remove('open');
+        items.forEach(name => {
+          if(!f || name.toLowerCase().includes(f)){
+            const item = document.createElement('div');
+            item.className = 'location-item';
+            item.textContent = name;
+            item.addEventListener('click', () => {
+              locationDisplayText.textContent = name;
+              locationDisplayText.classList.remove('placeholder');
+              locationDropdown.classList.remove('open');
+            });
+            locationList.appendChild(item);
+          }
         });
-        locationList.appendChild(item);
+      };
+
+      addGroup('Huts', huts);
+      addGroup('Campsites', campsites);
+    }
+
+    if(locationDisplay){
+      buildLocationList('');
+      locationDisplay.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = locationDropdown.classList.contains('open');
+        document.querySelectorAll('.location-dropdown').forEach(dd => dd.classList.remove('open'));
+        if(!isOpen){
+          locationDropdown.classList.add('open');
+          locationSearch.value = '';
+          buildLocationList('');
+          locationSearch.focus();
+        }
+      });
+    }
+
+    if(locationSearch){
+      locationSearch.addEventListener('input', () => {
+        buildLocationList(locationSearch.value);
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if(locationDropdown && !locationDropdown.contains(e.target) && !locationDisplay.contains(e.target)){
+        locationDropdown.classList.remove('open');
       }
     });
-  };
 
-  addGroup('Huts', huts);
-  addGroup('Campsites', campsites);
-}
-
-if(locationDisplay){
-  buildLocationList('');
-  locationDisplay.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = locationDropdown.classList.contains('open');
-    document.querySelectorAll('.location-dropdown').forEach(dd => dd.classList.remove('open'));
-    if(!isOpen){
-      locationDropdown.classList.add('open');
-      locationSearch.value = '';
-      buildLocationList('');
-      locationSearch.focus();
+    const cameraBtn = document.getElementById('cameraBtn');
+    const issueImageInput = document.getElementById('issueImage');
+    if(cameraBtn && issueImageInput){
+      cameraBtn.addEventListener('click', () => {
+        issueImageInput.click();
+      });
     }
-  });
-}
 
-if(locationSearch){
-  locationSearch.addEventListener('input', () => {
-    buildLocationList(locationSearch.value);
-  });
-}
+    const FORM_EMAIL = "work.laptop.ai@gmail.com";
 
-document.addEventListener('click', (e) => {
-  if(locationDropdown && !locationDropdown.contains(e.target) && !locationDisplay.contains(e.target)){
-    locationDropdown.classList.remove('open');
-  }
-});
+    function submitReport(){
+      try{
+        const location = locationDisplayText.classList.contains('placeholder') ? '' : locationDisplayText.textContent;
+        const track = document.getElementById("trackName").value || "";
+        const exact = document.getElementById("exactSpot").value || "";
+        const issue = document.getElementById("issueType").value || "";
+        const description = document.getElementById("issueDescription").value || "";
+        const email = document.getElementById("contactEmail").value || "";
+        const phone = document.getElementById("contactPhone").value || "";
+        const fileInput = document.getElementById("issueImage");
 
-const cameraBtn = document.getElementById('cameraBtn');
-const issueImageInput = document.getElementById('issueImage');
-if(cameraBtn && issueImageInput){
-  cameraBtn.addEventListener('click', () => {
-    issueImageInput.click();
-  });
-}
+        function sendForm(actionEmail, subject, fields, file){
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = 'https://formsubmit.co/' + encodeURIComponent(actionEmail);
+          form.enctype = 'multipart/form-data';
+          form.style.display = 'none';
 
-const FORM_EMAIL = "work.laptop.ai@gmail.com";
+          const addHidden = (name, value) => {
+            const i = document.createElement('input');
+            i.type = 'hidden';
+            i.name = name;
+            i.value = value || '';
+            form.appendChild(i);
+          };
 
-function submitReport(){
+          addHidden('_subject', subject);
+          addHidden('_template', 'table');
+          addHidden('_captcha', 'true');
+
+          for(const k in fields){
+            addHidden(k, fields[k]);
+          }
+
+          if(file instanceof File){
+            const fileField = document.createElement('input');
+            fileField.type = 'file';
+            fileField.name = 'Photo';
+            try{
+              const dt = new DataTransfer();
+              dt.items.add(file);
+              fileField.files = dt.files;
+              form.appendChild(fileField);
+            }catch(e){
+              console.warn('File attach fallback', e);
+            }
+          }
+
+          document.body.appendChild(form);
+          setTimeout(()=>{ form.submit(); setTimeout(()=>form.remove(),2000); }, 200);
+        }
+
+        const timestamp = new Date().toISOString();
+
+        sendForm(FORM_EMAIL, "DOC FIX – Location", {
+          Location: location,
+          Track: track,
+          ExactSpot: exact,
+          Timestamp: timestamp
+        });
+  function submitReport(){
   try{
     // REQUIRED FIELDS
     const location = locationDisplayText.classList.contains('placeholder') ? '' : locationDisplayText.textContent.trim();
@@ -1073,14 +1115,33 @@ function submitReport(){
         form.appendChild(i);
       };
 
+        sendForm(FORM_EMAIL, "DOC FIX – Issue", {
+          IssueType: issue,
+          Description: description,
+          Location: location,
+          Timestamp: timestamp
+        });
       addHidden('_subject', subject);
       addHidden('_template', 'table');
       addHidden('_captcha', 'true');
 
+        sendForm(FORM_EMAIL, "DOC FIX – Contact", {
+          Email: email,
+          Phone: phone,
+          Location: location,
+          Timestamp: timestamp
+        });
       for(const k in fields){
         addHidden(k, fields[k]);
       }
 
+        if(fileInput && fileInput.files && fileInput.files.length > 0){
+          const file = fileInput.files[0];
+          sendForm(FORM_EMAIL, "DOC FIX – Photo", {
+            Location: location,
+            IssueType: issue,
+            Timestamp: timestamp
+          }, file);
       if(file instanceof File){
         const fileField = document.createElement('input');
         fileField.type = 'file';
@@ -1093,7 +1154,22 @@ function submitReport(){
         }catch(e){
           addHidden('Photo (note)', file.name || 'attached');
         }
+
+        alert('Thanks — your report has been submitted.');
+        locationDisplayText.textContent = 'Select hut, campsite, or DOC location';
+        locationDisplayText.classList.add('placeholder');
+        document.getElementById("trackName").value = '';
+        document.getElementById("exactSpot").value = '';
+        document.getElementById("issueType").value = '';
+        document.getElementById("issueDescription").value = '';
+        document.getElementById("contactEmail").value = '';
+        document.getElementById("contactPhone").value = '';
+        if(fileInput) fileInput.value = '';
+      }catch(err){
+        console.error(err);
+        alert('Sorry — something went wrong submitting the report.');
       }
+    }
 
       document.body.appendChild(form);
       setTimeout(()=>{ form.submit(); setTimeout(()=>form.remove(),2000); }, 200);
@@ -1131,6 +1207,6 @@ function submitReport(){
   }
 }
 
-</script>
+  </script>
 </body>
 </html>
