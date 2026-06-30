@@ -560,7 +560,7 @@
       .content{padding:20px}
       .top-actions .btn{display:none}
     }
-</style>
+  </style>
 </head>
 <body>
 
@@ -571,16 +571,6 @@
         <div class="brand-sub">Protecting Aotearoa's places</div>
       </div>
     </div>
-      <!-- LOGO ADDED -->
-      <img src="logo.png" class="brand-logo" alt="DOC Logo">
-
-      <div>
-        <div class="brand-mark">DOC FIX</div>
-        <div class="brand-sub">Protecting Aotearoa's places</div>
-      </div>
-
-    </div>
-  </div>
 
     <div class="top-actions" role="navigation" aria-label="Top actions">
       <button class="btn" onclick="showPage('report')" title="Report an issue">Report</button>
@@ -806,7 +796,7 @@
           txt.classList.add('visible');
         }, 220);
       }
-    })
+    });
 
     function startScan(){
       showPage('report');
@@ -941,6 +931,7 @@
       "Woolshed Creek Campsite","Young River Campsite"
     ];
 
+  const locationDisplay = document.getElementById('locationDisplay');
 const locationDisplay = document.getElementById('locationDisplay');
 const locationDropdown = document.getElementById('locationDropdown');
 const locationSearch = document.getElementById('locationSearch');
@@ -1124,6 +1115,8 @@ function submitReport(){
 }
 
 </script>
+</body>
+</html>
 </body>
 </html>
 
