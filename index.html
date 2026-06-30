@@ -1003,105 +1003,116 @@
 
     const FORM_EMAIL = "work.laptop.ai@gmail.com";
 
-    function submitReport(){
-      try{
-        const location = locationDisplayText.classList.contains('placeholder') ? '' : locationDisplayText.textContent;
-        const track = document.getElementById("trackName").value || "";
-        const exact = document.getElementById("exactSpot").value || "";
-        const issue = document.getElementById("issueType").value || "";
-        const description = document.getElementById("issueDescription").value || "";
-        const email = document.getElementById("contactEmail").value || "";
-        const phone = document.getElementById("contactPhone").value || "";
-        const fileInput = document.getElementById("issueImage");
+  function submitReport(){
+  try{
+    // REQUIRED FIELDS
+    const location = locationDisplayText.classList.contains('placeholder') ? '' : locationDisplayText.textContent.trim();
+    const description = document.getElementById("issueDescription").value || "";
 
-        function sendForm(actionEmail, subject, fields, file){
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = 'https://formsubmit.co/' + encodeURIComponent(actionEmail);
-          form.enctype = 'multipart/form-data';
-          form.style.display = 'none';
-
-          const addHidden = (name, value) => {
-            const i = document.createElement('input');
-            i.type = 'hidden';
-            i.name = name;
-            i.value = value || '';
-            form.appendChild(i);
-          };
-
-          addHidden('_subject', subject);
-          addHidden('_template', 'table');
-          addHidden('_captcha', 'true');
-
-          for(const k in fields){
-            addHidden(k, fields[k]);
-          }
-
-          if(file instanceof File){
-            const fileField = document.createElement('input');
-            fileField.type = 'file';
-            fileField.name = 'Photo';
-            try{
-              const dt = new DataTransfer();
-              dt.items.add(file);
-              fileField.files = dt.files;
-              form.appendChild(fileField);
-            }catch(e){
-              console.warn('File attach fallback', e);
-            }
-          }
-
-          document.body.appendChild(form);
-          setTimeout(()=>{ form.submit(); setTimeout(()=>form.remove(),2000); }, 200);
-        }
-
-        const timestamp = new Date().toISOString();
-
-        sendForm(FORM_EMAIL, "DOC FIX – Location", {
-          Location: location,
-          Track: track,
-          ExactSpot: exact,
-          Timestamp: timestamp
-        });
-
-        sendForm(FORM_EMAIL, "DOC FIX – Issue", {
-          IssueType: issue,
-          Description: description,
-          Location: location,
-          Timestamp: timestamp
-        });
-
-        sendForm(FORM_EMAIL, "DOC FIX – Contact", {
-          Email: email,
-          Phone: phone,
-          Location: location,
-          Timestamp: timestamp
-        });
-
-        if(fileInput && fileInput.files && fileInput.files.length > 0){
-          const file = fileInput.files[0];
-          sendForm(FORM_EMAIL, "DOC FIX – Photo", {
-            Location: location,
-            IssueType: issue,
-            Timestamp: timestamp
-          }, file);
-        }
-
-        alert('Thanks — your report has been submitted.');
-        locationDisplayText.textContent = 'Select hut, campsite, or DOC location';
-        locationDisplayText.classList.add('placeholder');
-        document.getElementById("trackName").value = '';
-        document.getElementById("exactSpot").value = '';
-        document.getElementById("issueType").value = '';
-        document.getElementById("issueDescription").value = '';
-        document.getElementById("contactEmail").value = '';
-        document.getElementById("contactPhone").value = '';
-        if(fileInput) fileInput.value = '';
-      }catch(err){
-        console.error(err);
-        alert('Sorry — something went wrong submitting the report.');
-      }
+    if(!location){
+      alert('Please select a Hut / Campsite / DOC location before submitting.');
+      return;
     }
+    if(!description || description.trim().length < 6){
+      alert('Please describe the issue (short and simple). Provide at least a few words so DOC can act.');
+      return;
+    }
+
+    // OTHER FIELDS
+    const track = document.getElementById("trackName").value || "";
+    const exact = document.getElementById("exactSpot").value || "";
+    const issue = document.getElementById("issueType").value || "";
+    const email = document.getElementById("contactEmail").value || "";
+    const phone = document.getElementById("contactPhone").value || "";
+    const fileInput = document.getElementById("issueImage");
+    const timestamp = new Date().toISOString();
+
+    // FULL TABLE (even blank fields)
+    const allFields = {
+      "Hut / Campsite / DOC location": location,
+      "Track / route name (if not a hut)": track,
+      "Where exactly on the walk / at the site?": exact,
+      "Issue type": issue,
+      "Describe the issue": description,
+      "Photo attached": (fileInput && fileInput.files && fileInput.files.length > 0) ? "Yes" : "No",
+      "Contact Email (optional)": email,
+      "Contact Phone (optional)": phone,
+      "Timestamp": timestamp
+    };
+
+    function sendForm(actionEmail, subject, fields, file){
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://formsubmit.co/' + encodeURIComponent(actionEmail);
+      form.enctype = 'multipart/form-data';
+      form.style.display = 'none';
+
+      const addHidden = (name, value) => {
+        const i = document.createElement('input');
+        i.type = 'hidden';
+        i.name = name;
+        i.value = value || '';
+        form.appendChild(i);
+      };
+
+      addHidden('_subject', subject);
+      addHidden('_template', 'table');
+      addHidden('_captcha', 'true');
+
+      for(const k in fields){
+        addHidden(k, fields[k]);
+      }
+
+      if(file instanceof File){
+        const fileField = document.createElement('input');
+        fileField.type = 'file';
+        fileField.name = 'Photo';
+        try{
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          fileField.files = dt.files;
+          form.appendChild(fileField);
+        }catch(e){
+          addHidden('Photo (note)', file.name || 'attached');
+        }
+      }
+
+      document.body.appendChild(form);
+      setTimeout(()=>{ form.submit(); setTimeout(()=>form.remove(),2000); }, 200);
+    }
+
+    // SEND FULL REPORT
+    sendForm(FORM_EMAIL, "DOC FIX – Full Report", allFields);
+
+    // SEND PHOTO SEPARATELY IF PRESENT
+    if(fileInput && fileInput.files && fileInput.files.length > 0){
+      const file = fileInput.files[0];
+      sendForm(FORM_EMAIL, "DOC FIX – Photo Attachment", {
+        "Hut / Campsite / DOC location": location,
+        "Issue type": issue,
+        "Timestamp": timestamp,
+        "Photo filename": file.name || ''
+      }, file);
+    }
+
+    alert('Thanks — your report has been submitted.');
+
+    // RESET FORM
+    locationDisplayText.textContent = 'Select hut, campsite, or DOC location';
+    locationDisplayText.classList.add('placeholder');
+    document.getElementById("trackName").value = '';
+    document.getElementById("exactSpot").value = '';
+    document.getElementById("issueType").value = '';
+    document.getElementById("issueDescription").value = '';
+    document.getElementById("contactEmail").value = '';
+    document.getElementById("contactPhone").value = '';
+    if(fileInput) fileInput.value = '';
+  }catch(err){
+    console.error(err);
+    alert('Sorry — something went wrong submitting the report.');
+  }
+}
+
   </script>
 </body>
 </html>
